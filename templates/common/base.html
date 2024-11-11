@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Django Recipes</title>
+</head>
+
+<body>
+
+    <header class="nav">
+        {% include 'common/nav.html' %}
+    </header>
+
+    <main class="main">
+    
+        {% block content %}
+        {% endblock %}
+    
+    </main>
+    
+    <div class="footer">
+           <footer class="footer-section">
+              © 2024 SOFTUNI PYTHON WEB MODULE - PROJECT DEFENSE
+           </footer>
+    </div>
+
+</body>
+</html>
