@@ -1,15 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from djangoRecipes.common.mixins import PlaceholderMixin
-
 UserModel = get_user_model()
 
-class AppUserCreationForm(PlaceholderMixin, UserCreationForm):
+
+class AppUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = UserModel
-        fields = ("username", "email",)
+        fields = ['username', 'email', 'password1', 'password2']
 
-class AppUserChangeForm(PlaceholderMixin, UserChangeForm):
+
+class AppUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = UserModel

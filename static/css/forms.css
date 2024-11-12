@@ -3,12 +3,19 @@
     font-weight: 700;
     text-align: center;
     margin-top: -5px;
+    margin-bottom: 5px;
     color: #009AE5;
 }
 
-.form-box label,
 .helptext {
     display: none;
+}
+
+.form-box label {
+    display: block;
+    /*margin-bottom: 5px;*/
+    font-weight: bold;
+    color: #009AE5;
 }
 
 .form-box input {
@@ -18,7 +25,8 @@
     height: 35px;
     width: 100%;
     padding-left: 8px;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     transition: border-color 0.3s ease;
 }
 
@@ -32,10 +40,61 @@
     outline: none;
 }
 
+.form-box select,
+.form-box input[type="radio"],
+.form-box input[type="checkbox"] {
+    background-color: #f0f0f0;
+    border: 1px solid #009AE5;
+    border-radius: 6px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.form-box select:focus,
+.form-box input[type="radio"]:focus,
+.form-box input[type="checkbox"]:focus {
+    border-color: #0077cc;
+    outline: none;
+}
+
+.form-box input[type="radio"],
+.form-box input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+.form-box textarea {
+    background-color: #f0f0f0;
+    border: 1px solid #009AE5;
+    border-radius: 6px;
+    width: 100%;
+    height: 100px;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.form-box textarea::placeholder {
+    color: #666;
+    font-style: normal;
+}
+
+.form-box textarea:focus {
+    border-color: #0077cc;
+    outline: none;
+}
+
 .form-box button {
     background-color: #009AE5;
     color: #fff;
     font-weight: 700;
+    font-size: 1em;
     border: none;
     width: 100%;
     border-radius: 6px;

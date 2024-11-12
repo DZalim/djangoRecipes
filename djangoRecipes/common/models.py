@@ -1,9 +1,25 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
+from djangoRecipes.common.utils import TimeStampMixin
+from djangoRecipes.recipes.models import Recipe
 
-class TimeStampMixin(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, )
-    updated_at = models.DateTimeField(auto_now=True, )
+UserModel = get_user_model()
 
+
+class Comment(TimeStampMixin):
     class Meta:
-        abstract = True
+        indexes = [
+            models.Index(fields=['updated_at']),
+        ]
+        ordering = ['-updated_at']
+
+    description = models.TextField(max_length=300)
+
+    to_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="comments")
+
+
+class Like(models.Model):
+    to_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="likes")
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="likes")

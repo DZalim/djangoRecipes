@@ -1,18 +1,21 @@
 {% extends 'common/base.html' %}
+{% load placeholder_filter %}
 
 {% block content %}
 
 <div class="form-div">
     <div class="form-box">
         
-        <h1>Log IN</h1>
+        <h1>LogIn</h1>
         
         <form action="#" method="post">
             
             {% csrf_token %}
-            {{form}}
+            {{ form.errors }}
+            {{ form.username|placeholder:"Enter your Email or Username" }}
+            {{ form.password|placeholder:"Enter your Password" }}
             
-            <button type="submit">Log in</button>
+            <button type="submit">SIGN IN</button>
         </form>
 
     </div>

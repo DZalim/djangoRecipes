@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('djangoRecipes.common.urls')),
     path('accounts/', include('djangoRecipes.accounts.urls')),
-
+    path('category/', include('djangoRecipes.categories.urls')),
+    path('recipe/', include('djangoRecipes.recipes.urls'))
 ]

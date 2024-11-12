@@ -7,6 +7,7 @@ from djangoRecipes.accounts.forms import AppUserCreationForm
 
 UserModel = get_user_model()
 
+
 class AppUserLoginView(LoginView):
     template_name = 'accounts/login-view.html'
 
@@ -19,6 +20,5 @@ class AppUserRegisterView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        login(self.request, self.object)  # self.object == user
-
+        login(self.request, self.object, backend='djangoRecipes.accounts.authentication.EmailOrUsernameBackend')
         return response

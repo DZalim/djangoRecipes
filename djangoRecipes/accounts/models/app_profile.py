@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from djangoRecipes.common.models import TimeStampMixin
+from djangoRecipes.common.utils import TimeStampMixin
 
 UserModel = get_user_model()
 
