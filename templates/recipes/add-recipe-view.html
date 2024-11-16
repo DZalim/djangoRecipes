@@ -2,13 +2,40 @@
 
 {% block content %}
 
-<div class="form-div">
-    <div class="form-box">
+<div class="recipe-form-div">
+    <div class="recipe-form-box">
         
         <form action="" method="post">
             
             {% csrf_token %}
-            {{ form }}
+        
+            <div class="form-column form-column-left">
+                {% for field in form %}
+                    {% if 'form-column-left' in field.field.widget.attrs.class %}
+                        <div>
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small>{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="form-column form-column-right">
+                {% for field in form %}
+                    {% if 'form-column-right' in field.field.widget.attrs.class %}
+                        <div>
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <small>{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
             
             <button type="submit">Create</button>
         </form>

@@ -1,3 +1,81 @@
+.recipe-form-box, .form-box {
+    margin-top: 50px;
+}
+
+.form-box, .recipe-form-box {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #009AE5;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 154, 229, 0.1);
+}
+
+.form-box input,
+.recipe-form-box input,
+.form-box textarea,
+.recipe-form-box textarea,
+.form-box select,
+.recipe-form-box select {
+    width: 100%;
+    margin-top: 7px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #009AE5;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-box input::placeholder,
+.recipe-form-box input::placeholder,
+.form-box textarea::placeholder,
+.recipe-form-box textarea::placeholder {
+    color: #666;
+    font-style: normal;
+}
+
+.form-box input:focus,
+.recipe-form-box input:focus,
+.form-box textarea:focus,
+.recipe-form-box textarea:focus,
+.form-box select:focus,
+.recipe-form-box select:focus {
+    border-color: #009AE5;
+    outline: none;
+}
+
+.form-box input[type="radio"],
+.recipe-form-box input[type="radio"],
+.form-box input[type="checkbox"],
+.recipe-form-box input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.form-box button,
+.recipe-form-box button {
+    background-color: #009AE5;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-box button:hover,
+.recipe-form-box button:hover {
+    background-color: #0077cc;
+}
+
+
+/*login*/
 .form-box h1 {
     font-size: 32px;
     font-weight: 700;
@@ -7,118 +85,45 @@
     color: #009AE5;
 }
 
+/*register*/
 .helptext {
     display: none;
 }
 
-.form-box label {
-    display: block;
-    /*margin-bottom: 5px;*/
-    font-weight: bold;
-    color: #009AE5;
+.login-register-div {
+    margin-top: 10px;
+    width: 350px;
 }
 
-.form-box input {
-    background-color: #f0f0f0;
-    border: 1px solid #009AE5;
-    border-radius: 6px;
-    height: 35px;
-    width: 100%;
-    padding-left: 8px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    transition: border-color 0.3s ease;
+/*Only recipe-box*/
+
+.recipe-form-box form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
 }
 
-.form-box input::placeholder {
-    color: #666;
-    font-style: normal;
+.form-column {
+    flex: 1;
+    min-width: 300px;
 }
 
-.form-box input:focus {
-    border-color: #0077cc;
-    outline: none;
+.form-column-left {
+    padding-right: 10px;
 }
 
-.form-box select,
-.form-box input[type="radio"],
-.form-box input[type="checkbox"] {
-    background-color: #f0f0f0;
-    border: 1px solid #009AE5;
-    border-radius: 6px;
-    padding: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 100%;
-    transition: border-color 0.3s ease;
-    cursor: pointer;
+.form-column-right {
+    padding-left: 10px;
+    border-left: 1px solid #ddd;
 }
 
-.form-box select:focus,
-.form-box input[type="radio"]:focus,
-.form-box input[type="checkbox"]:focus {
-    border-color: #0077cc;
-    outline: none;
+.recipe-form-box button {
+    font-size: 18px;
 }
 
-.form-box input[type="radio"],
-.form-box input[type="checkbox"] {
-    width: auto;
-    margin-right: 8px;
-}
 
-.form-box textarea {
-    background-color: #f0f0f0;
-    border: 1px solid #009AE5;
-    border-radius: 6px;
-    width: 100%;
-    height: 100px;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    resize: vertical;
-    transition: border-color 0.3s ease;
-}
-
-.form-box textarea::placeholder {
-    color: #666;
-    font-style: normal;
-}
-
-.form-box textarea:focus {
-    border-color: #0077cc;
-    outline: none;
-}
-
-.form-box button {
-    background-color: #009AE5;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1em;
-    border: none;
-    width: 100%;
-    border-radius: 6px;
-    margin-top: 20px;
-    height: 40px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.form-box button:hover {
-    background-color: #0077cc;
-}
-
-.form-box,
-.second-option {
-    display: block;
-    width: 320px;
-    background-color: #fff;
-    border: 1px solid #009AE5;
-    padding: 30px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 154, 229, 0.1);
-}
+/*For Login and Register*/
 
 .second-option {
     text-align: center;
@@ -129,7 +134,7 @@
 .second-option a {
     color: #009AE5;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: bold;
 }
 
 .second-option a:hover {

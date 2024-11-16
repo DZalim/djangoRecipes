@@ -1,0 +1,120 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="recipe-details">
+    
+    <div class="recipe-details-top">
+            <!-- Секция за снимки на рецептата -->
+        <div class="recipe-photo-gallery">
+            <button class="prev-btn">&lt;</button>
+            <div class="photo-slider">
+                {% for photo in recipe.photos.all %}
+                    <img src="{{ photo.photo_url }}" alt="{{ recipe.recipe_name }}" class="recipe-image">
+                {% empty %}
+                    <img src="{% static 'images/no-photo-recipe.png' %}" alt="No photo available" class="recipe-image">
+                {% endfor %}
+            </div>
+            <button class="next-btn">&gt;</button>
+        </div>
+    
+        <!-- Основна информация за рецептата -->
+        <div class="recipe-main-info">
+            <h1>{{ recipe.recipe_name }}</h1>
+    
+            <!-- Бутони за редактиране и изтриване (само за собственика на рецептата) -->
+            {% if user == recipe.user %}
+            <div class="action-buttons">
+                <a href="" class="edit-btn">Edit</a>
+    {#            <a href="{% url 'edit_recipe' recipe.id %}" class="edit-btn">Edit</a>#}
+                <form method="post" action="" class="delete-form">
+    {#            <form method="post" action="{% url 'delete_recipe' recipe.id %}" class="delete-form">#}
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this recipe?')">Delete</button>
+                </form>
+            </div>
+            {% endif %}
+    
+            <div class="like-info">
+                <p>Total likes: {{ recipe.likes.count }}</p>
+                <span class="heart">
+                    <a href="#">
+                        {% if recipe.has_liked %}
+                            <i class="fa-solid fa-heart" style="color: #009AE5;"></i>
+                        {% else %}
+                            <i class="fa-regular fa-heart"></i>
+                        {% endif %}
+                    </a>
+                </span>
+            </div>
+            <p>Total comments: {{ recipe.comments.count }}</p>
+            <div class="time-info">
+                <div>
+                    <i class="fa-regular fa-clock"></i>
+                </div>
+                <div>
+                    <p>Preparation time: {{ recipe.preparing_time }} min</p>
+                    <p>Cooking time: {{ recipe.cooking_time }} min</p>
+                </div>
+                
+            </div>
+            <div class="difficulty-info">
+                <i class="fa-solid fa-kitchen-set"></i>
+                <p>{{ recipe.difficulty_level }}</p>
+            </div>
+            <div class="portions-info">
+                <i class="fa-solid fa-utensils"></i>
+                <p>Serves: {{ recipe.portions }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="recipe-details-mid">
+        <!-- Секция за съставки -->
+        <div class="ingredients-section">
+            <h2>Ingredients</h2>
+            <ul>
+                {% for ingredient in ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    
+        <!-- Описание как се приготвя -->
+        <div class="instructions-section">
+            <h2>How to Cook</h2>
+            <p>{{ recipe.description }}</p>
+        </div>
+    </div>
+    
+    <div class="recipe-details-bottom">
+        <!-- Коментари -->
+        <div class="comment-section">
+            <h2>Comments</h2>
+            {% for comment in recipe.comments.all %}
+                <div class="comment-box">
+                    <div class="comment-header">
+                        <h3>{{ comment.user.profile.get_full_name }}</h3>
+                        <span>{{ comment.created_at }}</span>
+                    </div>
+                    <p>{{ comment.description }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    
+        <!-- Форма за добавяне на коментари -->
+        <div class="add-comment-form">
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button type="submit">Post Comment</button>
+        </form>
+        </div>
+    </div>
+</div>
+    
+<script src="{% static 'js/recipe-gallery.js' %}"></script>
+
+{% endblock %}

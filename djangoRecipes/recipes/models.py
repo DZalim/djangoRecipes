@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MinLengthValidator
 from django.db import models
 
 from djangoRecipes.categories.models import Category
@@ -11,6 +11,12 @@ UserModel = get_user_model()
 
 
 class Recipe(TimeStampMixin):
+    class Meta:
+        indexes = [
+            models.Index(fields=['updated_at']),
+        ]
+        ordering = ['-updated_at']
+
     recipe_name = models.CharField(
         max_length=100,
         unique=True,
@@ -24,6 +30,7 @@ class Recipe(TimeStampMixin):
     preparing_time = models.SmallIntegerField(validators=[MinValueValidator(1)], )  # should be in minutes
     cooking_time = models.SmallIntegerField(validators=[MinValueValidator(1)], )  # should be in minutes
     ingredients = models.TextField(validators=[SemicolonValidator()])  # must be entered with a semicolon(;)
+    description = models.TextField(validators=[MinLengthValidator(50)])
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="recipes")
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="recipes")
