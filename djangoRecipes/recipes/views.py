@@ -21,7 +21,7 @@ class AddRecipeView(LoginRequiredMixin, CreateView):
 
 class RecipesDashboard(ListView):
     model = Recipe
-    template_name = "recipes/list-recipes.html"
+    template_name = "recipes/dashboard.html"
     context_object_name = 'recipes'
     paginate_by = 8
 

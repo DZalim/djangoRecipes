@@ -1,0 +1,50 @@
+{% extends 'common/base.html' %}
+{% load static %}
+{% block content %}
+    
+    <div class="profile-details-page">
+        
+        <div class="left-section">
+            <h1>Own Recipes</h1>
+            {% include 'recipes/list-recipes.html' %}
+            {% if user.recipes.all %}
+                <a href="" class="view-all-recipes">View All Added Recipes</a>
+            {% else %}
+                <a href="{% url 'add-recipe' %}" class="view-all-recipes">Add your first recipe</a>
+            {% endif %}
+        </div>
+        
+        <div class="right-section">
+            <h1>Profile Info</h1>
+            <div class="profile-picture">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.photo_url }}" alt="">
+                {% else %}
+                    <img src="{% static 'images/profile-picture.png' %}" alt="">
+                {% endif %}             
+            </div>
+            <h1>{{ profile.get_full_name }}</h1>
+            
+            <p>Total commented recipes: {{ user.comments.count }}</p>
+            <p>Total liked recipes: {{ user.likes.count }}</p>
+            
+            <div class="show-favorite-comment-recipe">
+                <a href="" class="favorite-comment-recipe-button">View Favourite Recipes</a>
+                <a href="" class="favorite-comment-recipe-button">View Commented Recipes</a>
+            </div>
+        
+            <div class="action-buttons-profile">
+                <a href="" class="edit-btn-profile">Edit Profile</a>
+    {#            <a href="{% url 'edit_recipe' recipe.id %}" class="edit-btn">Edit</a>#}
+                <form method="post" action="" class="delete-form-profile">
+    {#            <form method="post" action="{% url 'delete_recipe' recipe.id %}" class="delete-form">#}
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn-profile" onclick="return confirm('Are you sure you want to delete this recipe?')">Delete Profile</button>
+                </form>
+            </div>
+            
+        </div>
+    
+    </div>
+
+{% endblock %}
