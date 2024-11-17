@@ -21,7 +21,7 @@
     margin: 0 auto;
 }
 
-.left-section h3 {
+.left-section h4 {
     display: block;
     text-align: center;
     margin-bottom: 10px;
@@ -60,7 +60,7 @@
     margin-top: 20px;
 }
 
-.favorite-comment-recipe-button, .add-change-profile-photo {
+.favorite-comment-recipe-button, .add-change-profile-photo, .add-new-recipe {
     display: inline-block;
     margin: 10px 5px;
     padding: 10px 15px;
@@ -71,8 +71,12 @@
     transition: background-color 0.3s ease;
 }
 
-.favorite-comment-recipe-button:hover, .view-all-recipes:hover {
+.favorite-comment-recipe-button:hover, .view-all-recipes:hover, .add-change-profile-photo:hover, .add-new-recipe:hover {
     background-color: #007bbd;
+}
+
+.add-new-recipe {
+    margin-bottom: 20px;
 }
 
 .view-all-recipes {
@@ -93,7 +97,8 @@
 }
 
 .edit-btn-profile,
-.delete-btn-profile {
+.delete-btn-profile,
+.delete-profile-photo {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px 5px;
@@ -114,11 +119,11 @@
     background-color: #218838;
 }
 
-.delete-btn-profile {
+.delete-btn-profile, .delete-profile-photo {
     background-color: #dc3545;
 }
 
-.delete-btn-profile:hover {
+.delete-btn-profile:hover, .delete-profile-photo:hover {
     background-color: #c82333;
 }
 

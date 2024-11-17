@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('djangoRecipes.common.urls')),
     path('accounts/', include('djangoRecipes.accounts.urls')),
     path('category/', include('djangoRecipes.categories.urls')),
-    path('recipe/', include('djangoRecipes.recipes.urls'))
+    path('recipe/', include('djangoRecipes.recipes.urls')),
 ]

@@ -6,14 +6,16 @@
         
         <div class="left-section">
             <h1>Own Recipes</h1>
+            
             {% if user.recipes.all %}
+            <a href="{% url 'add-recipe' %}" class="add-new-recipe">Add new recipe</a>
             {% include 'recipes/list-recipes.html' %}
                 {% if user.recipes.all.count > 2 %}
                     <a href="" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
                 {% endif %}
             {% else %}
-                <h3>You have no recipes added yet</h3>
-                <h3>Add your first recipe</h3>
+                <h4>You have no recipes added yet</h4>
+                <h4>Add your first recipe</h4>
                 {% include 'recipes/add-recipe.html' %}
             {% endif %}
         </div>
@@ -24,9 +26,10 @@
                 {% if user.profile_picture %}
                     <img src="{{ user.profile_picture.photo_url }}" alt="">
                     <a href="" class="add-change-profile-photo">Change Profile Photo</a>
+                    <a href="" class="delete-profile-photo">Delete Profile Photo</a>
                 {% else %}
                     <img src="{% static 'images/profile-picture.png' %}" alt="">
-                    <a href="" class="add-change-profile-photo">Add profile photo</a>
+                    <a href="{% url 'add-user-photo' user.pk %}" class="add-change-profile-photo">Add profile photo</a>
                 {% endif %}             
             </div>
         

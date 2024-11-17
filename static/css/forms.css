@@ -12,6 +12,10 @@
     box-shadow: 0 4px 6px rgba(0, 154, 229, 0.1);
 }
 
+.form-box {
+    width: 350px;
+}
+
 .form-box input,
 .recipe-form-box input,
 .form-box textarea,

@@ -12,7 +12,7 @@
                 {% for photo in recipe.photos.all %}
                     <img src="{{ photo.photo_url }}" alt="{{ recipe.recipe_name }}" class="recipe-image">
                 {% empty %}
-                    <img src="{% static 'images/no-photo-recipe.png' %}" alt="No photo available" class="recipe-image">
+                    <img src="{% static 'images/no-photo-recipe2.png' %}" alt="No photo available" class="recipe-image">
                 {% endfor %}
             </div>
             <button class="next-btn">&gt;</button>
@@ -26,7 +26,7 @@
             {% if user == recipe.user %}
             <div class="action-buttons">
                 <a href="" class="edit-btn">Edit Recipe</a>
-                <a href="" class="edit-btn">Add Photo</a>
+                <a href="{% url 'add-recipe-photo' recipe.pk %}" class="edit-btn">Add Photo</a>
     {#            <a href="{% url 'edit_recipe' recipe.id %}" class="edit-btn">Edit</a>#}
                 <form method="post" action="" class="delete-form">
     {#            <form method="post" action="{% url 'delete_recipe' recipe.id %}" class="delete-form">#}
