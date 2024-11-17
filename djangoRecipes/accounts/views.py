@@ -5,6 +5,7 @@ from django.views.generic import CreateView, DetailView
 
 from djangoRecipes.accounts.forms import AppUserCreationForm
 from djangoRecipes.accounts.models import Profile
+from djangoRecipes.recipes.forms import CreateRecipeForm
 
 UserModel = get_user_model()
 
@@ -31,5 +32,7 @@ class ProfileDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["recipes"] = self.object.user.recipes.all()[:2]
+        context["form"] = CreateRecipeForm()
+        context["more_recipes"] = self.object.user.recipes.all().count() - 2
 
         return context

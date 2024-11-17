@@ -4,6 +4,7 @@
 @import "nav.css";
 @import "forms.css";
 @import "list-recipes.css";
+@import 'paginator.css';
 @import "home.css";
 @import "recipe-details.css";
 @import "profile-details.css";

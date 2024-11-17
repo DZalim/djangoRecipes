@@ -6,11 +6,15 @@
         
         <div class="left-section">
             <h1>Own Recipes</h1>
-            {% include 'recipes/list-recipes.html' %}
             {% if user.recipes.all %}
-                <a href="" class="view-all-recipes">View All Added Recipes</a>
+            {% include 'recipes/list-recipes.html' %}
+                {% if user.recipes.all.count > 2 %}
+                    <a href="" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
+                {% endif %}
             {% else %}
-                <a href="{% url 'add-recipe' %}" class="view-all-recipes">Add your first recipe</a>
+                <h3>You have no recipes added yet</h3>
+                <h3>Add your first recipe</h3>
+                {% include 'recipes/add-recipe.html' %}
             {% endif %}
         </div>
         
@@ -19,15 +23,19 @@
             <div class="profile-picture">
                 {% if user.profile_picture %}
                     <img src="{{ user.profile_picture.photo_url }}" alt="">
+                    <a href="" class="add-change-profile-photo">Change Profile Photo</a>
                 {% else %}
                     <img src="{% static 'images/profile-picture.png' %}" alt="">
+                    <a href="" class="add-change-profile-photo">Add profile photo</a>
                 {% endif %}             
             </div>
+        
             <h1>{{ profile.get_full_name }}</h1>
-            
-            <p>Total commented recipes: {{ user.comments.count }}</p>
+        
+            <p>Total added recipes: {{ user.recipes.count }}</p>
             <p>Total liked recipes: {{ user.likes.count }}</p>
-            
+            <p>Total commented recipes: {{ user.comments.count }}</p>
+        
             <div class="show-favorite-comment-recipe">
                 <a href="" class="favorite-comment-recipe-button">View Favourite Recipes</a>
                 <a href="" class="favorite-comment-recipe-button">View Commented Recipes</a>

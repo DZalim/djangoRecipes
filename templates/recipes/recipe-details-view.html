@@ -41,7 +41,7 @@
                 <span class="heart">
                     <a href="#">
                         {% if recipe.has_liked %}
-                            <i class="fa-solid fa-heart" style="color: #009AE5;"></i>
+                            <i class="fa-solid fa-heart"></i>
                         {% else %}
                             <i class="fa-regular fa-heart"></i>
                         {% endif %}
@@ -72,6 +72,11 @@
             <div class="portions-info">
                 <i class="fa-solid fa-utensils"></i>
                 <p>Serves: {{ recipe.portions }}</p>
+            </div>
+            
+            <div class="recipe-owner">
+                <i class="fa-solid fa-circle-user"></i>
+                <a href=""><p>{{ recipe.user.profile.get_full_name }}</p></a>
             </div>
         </div>
     </div>

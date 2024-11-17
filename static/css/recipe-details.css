@@ -72,36 +72,39 @@ h1, h2 {
     right: 10px;
 }
 
-/* Основна информация */
 .recipe-main-info, .recipe-photo-gallery {
     margin-top: 50px;
 }
 
-.like-info, .time-info, .difficulty-info, .portions-info, .comment-info {
+.recipe-main-info h1 {
+    margin-bottom: 20px;
+}
+
+.like-info, .time-info, .difficulty-info, .portions-info, .comment-info, .recipe-owner {
     margin: 10px auto;
     display: flex;
     align-items: center;
 }
 
-.time-info i {
-    margin-right: 10px;
-    font-size: 20px;
-}
-
 .heart i, .comment-info i {
-    font-size: 24px;
+    font-size: 26px;
     cursor: pointer;
-    margin-left: 20px;
+    margin-left: 10px;
+    color: #009AE5;
 }
 
-.difficulty-info i, .portions-info i {
+.time-info i, .difficulty-info i, .portions-info i, .recipe-owner i {
     margin-right: 10px;
     font-size: 20px;
+    color: #009AE5;
 }
 
-/* Секции за съставки и инструкции */
+.recipe-owner a {
+    text-decoration: none;
+}
+
 .ingredients-section, .instructions-section {
-    flex: 1 1 50%;
+    flex: 1 1 30%;
     max-width: 500px;
     margin: 0 50px 0 50px;
     text-align: justify;

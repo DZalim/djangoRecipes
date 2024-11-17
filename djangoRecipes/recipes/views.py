@@ -37,7 +37,9 @@ class RecipeDetailsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
         context["ingredients"] = context["recipe"].ingredients.split(";")
         context["comment_form"] = CommentForm()
+        context["recipe"].has_liked = context["recipe"].likes.filter(user=self.request.user).exists()
 
         return context

@@ -12,6 +12,7 @@
     display: flex;
     width: 300px;
     flex-direction: column;
+    justify-content: space-between;
     background-color: #fff;
     border: 2px solid #009AE5;
     border-radius: 15px;
@@ -33,6 +34,9 @@
 }
 
 .recipe-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     padding: 15px;
     text-align: left;
 }
@@ -54,6 +58,7 @@
     background-color: #009AE5;
     color: white;
     padding: 10px 15px;
+    max-width: 120px;
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s ease;
@@ -63,56 +68,3 @@
     background-color: #007bbd;
 }
 
-.pagination {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.step-links-buttons a,
-.step-links-buttons span.current {
-    font-size: 20px;
-    color: white;
-    padding: 10px 15px;
-    margin: 0 5px;
-    text-decoration: none;
-    background-color: #009AE5;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.step-links-buttons a:hover {
-    background-color: #007bbd;
-}
-
-.step-links-buttons span.current {
-    cursor: default;
-    text-shadow: none;
-}
-
-.step-links-buttons a:first-child,
-.step-links-buttons a:last-child {
-    margin: 0;
-}
-
-.step-links-buttons {
-    display: flex;
-    text-shadow: none;
-}
-
-.step-links-buttons a.disabled {
-    pointer-events: none;
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.button {
-    background-color: white;
-    border: none;
-    font-size: 22px;
-    margin: 2.5px 0px 0px 8px;
-    padding: 0;
-    cursor: pointer;
-}
