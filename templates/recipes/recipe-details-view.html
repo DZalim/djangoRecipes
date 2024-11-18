@@ -39,7 +39,7 @@
             <div class="like-info">
                 <p>Total likes: {{ recipe.likes.count }}</p>
                 <span class="heart">
-                    <a href="#">
+                    <a href="{% url 'like' recipe.id %}">
                         {% if recipe.has_liked %}
                             <i class="fa-solid fa-heart"></i>
                         {% else %}
@@ -76,7 +76,7 @@
             
             <div class="recipe-owner">
                 <i class="fa-solid fa-circle-user"></i>
-                <a href=""><p>{{ recipe.user.profile.get_full_name }}</p></a>
+                <a href="{% url 'own-recipes' recipe.user.pk %}"><p>{{ recipe.user.profile.get_full_name }}</p></a>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
     
         <!-- Форма за добавяне на коментари -->
         <div class="add-comment-form" id="comment">
-        <form method="post" action="">
+        <form method="post" action="{% url 'comment' recipe.pk %}">
             {% csrf_token %}
             {{ comment_form }}
             <button type="submit">Post Comment</button>
@@ -128,5 +128,6 @@
 </div>
     
 <script src="{% static 'js/recipe-gallery.js' %}"></script>
+<script src="{% static 'js/comment.js' %}"></script>
 
 {% endblock %}

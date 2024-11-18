@@ -5,6 +5,7 @@ from django.views.generic import CreateView, DetailView
 
 from djangoRecipes.accounts.forms import AppUserCreationForm
 from djangoRecipes.accounts.models import Profile
+from djangoRecipes.common.models import Comment
 from djangoRecipes.recipes.forms import CreateRecipeForm
 
 UserModel = get_user_model()
@@ -34,5 +35,7 @@ class ProfileDetailsView(DetailView):
         context["recipes"] = self.object.user.recipes.all()[:2]
         context["form"] = CreateRecipeForm()
         context["more_recipes"] = self.object.user.recipes.all().count() - 2
+        unique_comments = Comment.objects.filter(user=self.request.user).order_by("to_recipe_id").distinct('to_recipe_id')
+        context["unique_comments_count"] =  unique_comments.count()
 
         return context

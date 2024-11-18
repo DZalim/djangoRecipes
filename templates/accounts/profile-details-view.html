@@ -11,7 +11,7 @@
             <a href="{% url 'add-recipe' %}" class="add-new-recipe">Add new recipe</a>
             {% include 'recipes/list-recipes.html' %}
                 {% if user.recipes.all.count > 2 %}
-                    <a href="" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
+                    <a href="{% url 'own-recipes' request.user.pk %}" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
                 {% endif %}
             {% else %}
                 <h4>You have no recipes added yet</h4>
@@ -21,7 +21,7 @@
         </div>
         
         <div class="right-section">
-            <h1>Profile Info</h1>
+            <h1>Hello, {{ request.user }}</h1>
             <div class="profile-picture">
                 {% if user.profile_picture %}
                     <img src="{{ user.profile_picture.photo_url }}" alt="">
@@ -37,11 +37,11 @@
         
             <p>Total added recipes: {{ user.recipes.count }}</p>
             <p>Total liked recipes: {{ user.likes.count }}</p>
-            <p>Total commented recipes: {{ user.comments.count }}</p>
+            <p>Total commented recipes: {{ unique_comments_count }}</p>
         
             <div class="show-favorite-comment-recipe">
-                <a href="" class="favorite-comment-recipe-button">View Favourite Recipes</a>
-                <a href="" class="favorite-comment-recipe-button">View Commented Recipes</a>
+                <a href="{% url 'favorite-recipes' request.user.pk %}" class="favorite-comment-recipe-button">View Favourite Recipes</a>
+                <a href="{% url 'commented-recipes' request.user.pk %}" class="favorite-comment-recipe-button">View Commented Recipes</a>
             </div>
         
             <div class="action-buttons-profile">
