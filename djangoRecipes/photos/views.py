@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 
 from djangoRecipes.photos.forms import AddRecipePhotoForm, AddUserPhotoForm
 from djangoRecipes.photos.models import RecipePhotos, UsersPhoto
@@ -23,6 +24,15 @@ class AddRecipePhotoView(CreateView):
         photo.save()
 
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})
+
+class DeleteRecipePhoto(DeleteView):
+    model = RecipePhotos
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(pk=self.kwargs['photo_pk'])
 
     def get_success_url(self):
         return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})

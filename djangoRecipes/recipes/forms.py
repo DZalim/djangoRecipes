@@ -1,6 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
-from djangoRecipes.common.mixins import PlaceholderMixin, LabelMixin
+from djangoRecipes.common.mixins import LabelMixin, DisabledMixin
 from djangoRecipes.recipes.models import Recipe
 
 
@@ -37,7 +38,6 @@ class BaseRecipeForm(LabelMixin, forms.ModelForm):
             )
         }
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_labels(show_labels=True)
@@ -50,5 +50,22 @@ class BaseRecipeForm(LabelMixin, forms.ModelForm):
             else:
                 field.widget.attrs.update({'class': 'form-column-left'})
 
+
 class CreateRecipeForm(BaseRecipeForm):
     pass
+
+
+class EditRecipeForm(BaseRecipeForm):
+    class Meta:
+        model = Recipe
+        exclude = ["user"]
+
+    def clean_recipe_name(self):
+        recipe_name = self.cleaned_data['recipe_name']
+        instance = self.instance
+
+        if Recipe.objects.filter(recipe_name=recipe_name).exclude(pk=instance.pk).exists():
+            raise ValidationError("A recipe with the same name already exists. Please choose another name!")
+
+        return recipe_name
+

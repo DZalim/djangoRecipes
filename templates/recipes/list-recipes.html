@@ -5,7 +5,7 @@
     {% for recipe in recipes %}
         <div class="recipe-box">
             {% if recipe.photos.all %}
-                <img src="{{ recipe.photos.last.photo_url }}" alt="{{ recipe.recipe_name }}" class="image-recipe">
+                <img src="{{ recipe.photos.first.photo_url }}" alt="{{ recipe.recipe_name }}" class="image-recipe">
             {% else %}
                 <img src="{% static 'images/no-photo-recipe2.png' %}" alt="{{ recipe.recipe_name }}"
                      class="image-recipe">

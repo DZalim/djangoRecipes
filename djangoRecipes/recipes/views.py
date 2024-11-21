@@ -2,11 +2,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
-from djangoRecipes.accounts.models import AppUser
 from djangoRecipes.common.forms import CommentForm
-from djangoRecipes.recipes.forms import BaseRecipeForm
+from djangoRecipes.recipes.forms import CreateRecipeForm, EditRecipeForm
 from djangoRecipes.recipes.models import Recipe
 
 UserModel = get_user_model()
@@ -14,8 +13,8 @@ UserModel = get_user_model()
 
 class AddRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe
-    form_class = BaseRecipeForm
-    template_name = "recipes/add-recipe-view.html"
+    form_class = CreateRecipeForm
+    template_name = "recipes/recipe-form-view.html"
 
     def form_valid(self, form):
         recipe = form.save(commit=False)
@@ -54,6 +53,22 @@ class RecipeDetailsView(DetailView):
         return context
 
 
+class EditRecipeView(UpdateView):
+    model = Recipe
+    form_class = EditRecipeForm
+    template_name = "recipes/recipe-form-view.html"
+
+    def get_success_url(self):
+        return reverse_lazy('own-recipes', kwargs={'pk': self.request.user.pk})
+
+
+class DeleteRecipeView(DeleteView):
+    model = Recipe
+
+    def get_success_url(self):
+        return reverse_lazy('own-recipes', kwargs={'pk': self.request.user.pk})
+
+
 class OwnRecipesView(ListView):
     template_name = "recipes/dashboard.html"
     context_object_name = 'recipes'
@@ -68,9 +83,6 @@ class OwnRecipesView(ListView):
         context["recipes"] = context["page_obj"]
 
         return context
-
-    def test_func(self):
-        return self.request.user.id == int(self.kwargs['pk'])
 
 
 class FavoriteRecipesView(LoginRequiredMixin, UserPassesTestMixin, ListView):

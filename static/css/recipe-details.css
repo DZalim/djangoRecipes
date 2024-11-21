@@ -45,11 +45,51 @@ h1, h2 {
     height: 300px;
     object-fit: cover;
     border-radius: 8px;
+}
+
+.recipe-image {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.recipe-image {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
     display: none;
 }
 
 .recipe-image.active {
     display: block;
+}
+
+.photo-controls {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.photo-controls .btn {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.photo-controls form  {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.photo-controls .btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
 }
 
 .prev-btn, .next-btn {
