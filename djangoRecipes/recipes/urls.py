@@ -13,7 +13,7 @@ urlpatterns = [
         path('photos/', include([
             path('', photo_views.AddRecipePhotoView.as_view(), name='add-recipe-photo'),
             path('<int:photo_pk>/', include([
-                path('delete/', photo_views.DeleteRecipePhoto.as_view(), name='delete-recipe-photo'),
+                path('delete/', photo_views.DeleteRecipePhotoView.as_view(), name='delete-recipe-photo'),
             ]))
         ])),
     ])),

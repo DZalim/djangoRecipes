@@ -1,0 +1,21 @@
+<div id="userPhotoDeleteModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to delete your profile picture?</p>
+        <button class="confirm-delete" onclick="confirmUserPhotoDelete()">Yes</button>
+        <button class="cancel-delete" onclick="closeUserPhotoDeleteModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    function openUserPhotoDeleteModal() {
+    document.getElementById('userPhotoDeleteModal').style.display = 'flex';
+}
+
+function closeUserPhotoDeleteModal() {
+    document.getElementById('userPhotoDeleteModal').style.display = 'none';
+}
+
+function confirmUserPhotoDelete() {
+    document.querySelector('.delete-profile-photo').submit();
+}
+</script>

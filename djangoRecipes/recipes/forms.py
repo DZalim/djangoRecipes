@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from djangoRecipes.common.mixins import LabelMixin, DisabledMixin
+from djangoRecipes.common.mixins import LabelMixin
 from djangoRecipes.recipes.models import Recipe
 
 

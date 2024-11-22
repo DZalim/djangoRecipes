@@ -1,5 +1,7 @@
 {% load url_query_append %}
-
+    
+{% if recipes.paginator.num_pages > 1 %}
+    
     <div class="pagination">
     
         <span class="current">
@@ -30,3 +32,5 @@
         </span>
     
     </div>
+    
+{% endif %}

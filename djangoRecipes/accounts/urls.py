@@ -11,7 +11,18 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('profile/<int:pk>/', include([
         path('', views.ProfileDetailsView.as_view(), name='profile-details'),
-        path('photo/', photo_views.AddUserPhoto.as_view(), name='add-user-photo'),
+        path('edit/', views.EditProfileView.as_view(), name='edit-profile'),
+        path('delete/', views.DeleteProfileView.as_view(), name='delete-profile'),
+        path('photo/', include([
+            path('', photo_views.AddUserPhotoView.as_view(), name='add-user-photo'),
+            path('<int:photo_pk>/', include ([
+                path('edit/', photo_views.ChangeUserPhotoView.as_view(), name='change-user-photo'),
+                path('delete/', photo_views.DeleteUserPhotoView.as_view(), name='delete-user-photo'),
+
+            ])),
+
+        ])),
+
         path('favorite-recipes', recipe_views.FavoriteRecipesView.as_view(), name='favorite-recipes'),
         path('own-recipes', recipe_views.OwnRecipesView.as_view(), name='own-recipes'),
         path('commented-recipes', recipe_views.CommentedRecipesView.as_view(), name='commented-recipes'),

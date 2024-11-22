@@ -11,7 +11,7 @@
             <a href="{% url 'add-recipe' %}" class="add-new-recipe">Add new recipe</a>
             {% include 'recipes/list-recipes.html' %}
                 {% if user.recipes.all.count > 2 %}
-                    <a href="{% url 'own-recipes' request.user.pk %}" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
+                    <a href="{% url 'own-recipes' user.pk %}" class="view-all-recipes">View All Added Recipes +{{ more_recipes }}</a>
                 {% endif %}
             {% else %}
                 <h4>You have no recipes added yet</h4>
@@ -21,37 +21,45 @@
         </div>
         
         <div class="right-section">
-            <h1>Hello, {{ request.user }}</h1>
+            <h1>Hello, {{ user }}</h1>
             <div class="profile-picture">
                 {% if user.profile_picture %}
                     <img src="{{ user.profile_picture.photo_url }}" alt="">
-                    <a href="" class="add-change-profile-photo">Change Profile Photo</a>
-                    <a href="" class="delete-profile-photo">Delete Profile Photo</a>
+                    <div class="action-buttons-profile">
+                        <a href="{% url 'change-user-photo' user.pk user.profile_picture.pk %}" class="add-change-profile-photo">Change Photo</a>
+                        <form method="post" action="{% url 'delete-user-photo' user.pk user.profile_picture.pk %}" class="delete-profile-photo">
+                            {% csrf_token %}
+                            <button type="button" class="delete-btn-photo" onclick="openUserPhotoDeleteModal()">Delete Photo</button>
+                        </form>
+                        {% include 'photos/user-photo-delete-confirm.html' %}
+                    </div>
+                    
                 {% else %}
                     <img src="{% static 'images/profile-picture.png' %}" alt="">
                     <a href="{% url 'add-user-photo' user.pk %}" class="add-change-profile-photo">Add profile photo</a>
                 {% endif %}             
             </div>
         
-            <h1>{{ profile.get_full_name }}</h1>
+            <h1>{{ user.profile.get_full_name }}</h1>
         
             <p>Total added recipes: {{ user.recipes.count }}</p>
             <p>Total liked recipes: {{ user.likes.count }}</p>
             <p>Total commented recipes: {{ unique_comments_count }}</p>
         
             <div class="show-favorite-comment-recipe">
-                <a href="{% url 'favorite-recipes' request.user.pk %}" class="favorite-comment-recipe-button">View Favourite Recipes</a>
-                <a href="{% url 'commented-recipes' request.user.pk %}" class="favorite-comment-recipe-button">View Commented Recipes</a>
+                <a href="{% url 'favorite-recipes' user.pk %}" class="favorite-comment-recipe-button">View Favourite Recipes</a>
+                <a href="{% url 'commented-recipes' user.pk %}" class="favorite-comment-recipe-button">View Commented Recipes</a>
             </div>
         
             <div class="action-buttons-profile">
-                <a href="" class="edit-btn-profile">Edit Profile</a>
-    {#            <a href="{% url 'edit_recipe' recipe.id %}" class="edit-btn">Edit</a>#}
-                <form method="post" action="" class="delete-form-profile">
-    {#            <form method="post" action="{% url 'delete_recipe' recipe.id %}" class="delete-form">#}
-                    {% csrf_token %}
-                    <button type="submit" class="delete-btn-profile" onclick="return confirm('Are you sure you want to delete this recipe?')">Delete Profile</button>
+                <a href="{% url 'edit-profile' user.pk %}" class="edit-btn-profile">Edit Profile</a>
+               
+                <form method="post" action="{% url 'delete-profile' user.pk %}" class="delete-form-profile">
+                        {% csrf_token %}
+                        <button type="button" class="delete-btn-profile" onclick="openProfileDeleteModal()">Delete Profile</button>
                 </form>
+                {% include 'accounts/profile-delete-confirm.html' %}
+                
             </div>
             
         </div>

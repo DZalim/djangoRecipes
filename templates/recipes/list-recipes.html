@@ -22,6 +22,12 @@
                 <a href="{% url 'recipe-details' recipe.pk %}" class="recipe-link">View Recipe</a>
             </div>
         </div>
+    {% empty %}
+        <h1 class="no-recipes">
+            <span>No</span>
+            <span>Recipes</span>
+            <span>Yet</span>
+        </h1>
     {% endfor %}
 
 </div>

@@ -16,6 +16,10 @@
     width: 350px;
 }
 
+.change-photo-box a, #photo_url-clear_id, .change-photo-box label:first-child{
+    display: none;
+}
+
 .form-box input,
 .recipe-form-box input,
 .form-box textarea,
@@ -155,4 +159,10 @@
 
 .second-option a:hover {
     text-decoration: underline;
+}
+
+input[readonly], input[disabled] {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    pointer-events: none;
 }

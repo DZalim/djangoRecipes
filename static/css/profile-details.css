@@ -93,12 +93,14 @@
 }
 
 .action-buttons-profile {
+    display: flex;
+    flex-wrap: wrap;
     margin-top: 20px;
 }
 
 .edit-btn-profile,
 .delete-btn-profile,
-.delete-profile-photo {
+.delete-profile-photo .delete-btn-photo {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px 5px;
@@ -109,24 +111,31 @@
     color: #fff;
     transition: background-color 0.3s ease;
     font-size: 15px;
+    font-weight: normal;
 }
 
 .edit-btn-profile {
-    background-color: #28a745;
+    background-color: #009AE5;
 }
 
 .edit-btn-profile:hover {
-    background-color: #218838;
+    background-color: #007bbd;
 }
 
-.delete-btn-profile, .delete-profile-photo {
+.delete-btn-profile, .delete-profile-photo .delete-btn-photo {
     background-color: #dc3545;
 }
 
-.delete-btn-profile:hover, .delete-profile-photo:hover {
+.delete-btn-profile:hover, .delete-profile-photo .delete-btn-photo:hover {
     background-color: #c82333;
+}
+.add-change-profile-photo, .edit-btn-profile, .delete-btn-profile, .delete-btn-photo {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
 }
 
 .delete-form-profile {
     display: inline;
 }
+
+

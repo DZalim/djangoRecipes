@@ -19,14 +19,14 @@ class LabelMixin:
             if show_labels:
                 field.widget.attrs['class'] = field.widget.attrs.get('class', '') + ' show-label'
 
-class DisabledMixin:
-    disabled_fields = []
+class ReadOnlyMixin:
+    readonly_fields = []
 
-    def make_fields_disabled(self):
-        for field_name in self.disabled_fields:
+    def make_fields_readonly(self):
+        for field_name in self.readonly_fields:
             if field_name in self.fields:
-                self.fields[field_name].widget.attrs['disabled'] = True
+                self.fields[field_name].widget.attrs['readonly'] = 'readonly'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.make_fields_disabled()
+        self.make_fields_readonly()

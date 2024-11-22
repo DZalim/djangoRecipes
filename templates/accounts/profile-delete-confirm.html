@@ -1,0 +1,21 @@
+<div id="profileDeleteModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to delete your profile?</p>
+        <button class="confirm-delete" onclick="confirmProfileDelete()">Yes</button>
+        <button class="cancel-delete" onclick="closeProfileDeleteModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    function openProfileDeleteModal() {
+    document.getElementById('profileDeleteModal').style.display = 'flex';
+}
+
+function closeProfileDeleteModal() {
+    document.getElementById('profileDeleteModal').style.display = 'none';
+}
+
+function confirmProfileDelete() {
+    document.querySelector('.delete-form-profile').submit();
+}
+</script>

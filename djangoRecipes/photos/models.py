@@ -1,3 +1,5 @@
+import cloudinary
+import cloudinary.api
 from cloudinary import CloudinaryResource
 from cloudinary.models import CloudinaryField
 from django.contrib.auth import get_user_model
@@ -15,6 +17,13 @@ class BasePhoto(TimeStampMixin):
 
     photo_url = CloudinaryField("Upload a photo from your device", blank=True, null=True)
 
+    @property
+    def public_id(self):
+        if self.photo_url:
+            return self.photo_url.public_id.split('/')[-1].split('.')[0]
+
+        return None
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -22,6 +31,21 @@ class BasePhoto(TimeStampMixin):
             self.photo_url = self.photo_url.build_url()
 
         super().save(*args, **kwargs)
+
+    def delete_photo_from_cloudinary(self):
+        public_id = self.public_id
+
+        if public_id:
+            try:
+                result = cloudinary.api.delete_resources([public_id])
+                print(f"Photo deleted from Cloudinary: {result}")
+                return result
+            except cloudinary.exceptions.Error as e:
+                print(f"Cloudinary error while deleting photo: {e}")
+                return None
+
+        print("No public_id found, photo not deleted.")
+        return None
 
 
 class UsersPhoto(BasePhoto):

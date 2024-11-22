@@ -1,12 +1,3 @@
-.main h2{
-    text-align: center;
-    width: 400px;
-    margin: 50px auto 20px;
-    font-size: 50px;
-    font-style: oblique;
-    color: #009AE5;
-}
-
 .flex-div {
     display: flex;
     justify-content: space-around;
