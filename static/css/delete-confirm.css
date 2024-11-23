@@ -22,19 +22,19 @@
     background-color: #fff;
 }
 
-.confirm-delete, .cancel-delete {
+.confirm-delete, .cancel-delete, .confirm-edit, .cancel-edit {
     margin: 5px;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
 }
 
-.confirm-delete {
+.confirm-delete, .confirm-edit {
     background-color: red;
     color: white;
 }
 
-.cancel-delete {
+.cancel-delete, .cancel-edit {
     background-color: gray;
     color: white;
 }

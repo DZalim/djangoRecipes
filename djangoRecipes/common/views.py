@@ -1,15 +1,20 @@
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from rest_framework import serializers
+from rest_framework import status
+from rest_framework.generics import UpdateAPIView, DestroyAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-from djangoRecipes.common.forms import CommentForm
-from djangoRecipes.common.models import Like
+from djangoRecipes.common.models import Like, Comment
+from djangoRecipes.common.serializers import CommentSerializer
 from djangoRecipes.recipes.models import Recipe
 
 
 def home_view(request):
     return render(request, 'common/home-view.html')
+
 
 @login_required
 def like_functionality(request, recipe_id):
@@ -24,26 +29,48 @@ def like_functionality(request, recipe_id):
 
     return redirect(reverse('recipe-details', kwargs={'pk': recipe.id}))
 
-@login_required
-def comment_functionality(request, recipe_id):
-    if request.POST:
-        recipe = Recipe.objects.get(id=recipe_id)
-        comment_form = CommentForm(request.POST)
 
-        if comment_form.is_valid():
-            comment = comment_form.save(commit=False)
-            comment.to_recipe = recipe
-            comment.user = request.user
-            comment.save()
+class CommentCreateView(CreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
-            response_data = {
-                'user': comment.user.profile.get_full_name(),
-                'description': comment.description,
-                'created_at': comment.created_at.strftime('%Y-%m-%d %H:%M'),
-            }
+    def perform_create(self, serializer):
 
-            return JsonResponse(response_data, status=201)
+        recipe_id = self.kwargs['recipe_id']
+        try:
+            recipe = Recipe.objects.get(id=recipe_id)
+        except Recipe.DoesNotExist:
+            raise serializers.ValidationError({'error': 'Recipe not found'})
 
-        return JsonResponse({'error': 'Invalid form data'}, status=400)
+        serializer.save(user=self.request.user, to_recipe=recipe)
 
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        response_data = response.data
+
+        response_data['user'] = request.user.profile.get_full_name()
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
+
+class CommentEditDeleteView(UpdateAPIView, DestroyAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        comment_id = self.kwargs.get('comment_id')
+        return get_object_or_404(Comment, pk=comment_id)
+
+    def update(self, request, *args, **kwargs):
+        comment = self.get_object()
+
+        if request.user != comment.user:
+            return Response({'success': False, 'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = CommentSerializer(comment, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success': True, 'description': serializer.data['description']})
+
+        return Response({'success': False, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

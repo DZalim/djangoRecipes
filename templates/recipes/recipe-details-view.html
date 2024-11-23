@@ -123,24 +123,39 @@
         <!-- Коментари -->
         <div class="comment-section">
             <h2>Comments</h2>
-            {% for comment in recipe.comments.all %}
-                <div class="comment-box">
-                    <div class="comment-header">
-                        <h3>{{ comment.user.profile.get_full_name }}</h3>
-                        <span>{{ comment.created_at }}</span>
+            <div class="comments-container">
+                {% for comment in recipe.comments.all %}
+                    <div class="comment-box" data-comment-id="{{ comment.id }}">
+                        <div class="comment-header">
+                            <h3>{{ comment.user.profile.get_full_name }}</h3>
+                            <span>{{ comment.created_at }}</span>
+                        </div>
+                        <p class="comment-text">{{ comment.description }}</p>
+                    {% if user == comment.user %}    
+                    <div class="comment-actions">
+                        <form action="{% url 'edit-delete-comment' recipe.id comment.id %}" class="comment-edit-form">
+                            {% csrf_token %}
+                            <button type="button" class="edit-comment-btn" onclick="openEditCommentModal({{ recipe.id }}, {{ comment.id }}, '{{ comment.description|escapejs }}')"><i class="fa-solid fa-pen"></i></button>
+                        </form>
+                        <form action="{% url 'edit-delete-comment' recipe.id comment.id %}" class="comment-delete-form">
+                            {% csrf_token %}
+                            <button type="button" class="delete-comment-btn" onclick="openDeleteCommentModal({{ recipe.id }}, {{ comment.id }})"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                        {% include 'comments/edit-delete-comment-modal.html' %}
                     </div>
-                    <p>{{ comment.description }}</p>
-                </div>
-            {% empty %}
-                <h6>No comments yet</h6>
-            {% endfor %}
+                    {% endif %}
+                    </div>
+                {% empty %}
+                    <h6>No comments yet</h6>
+                {% endfor %}
+            </div>
         </div>
     
         <!-- Форма за добавяне на коментари -->
         <div class="add-comment-form" id="comment">
-        <form method="post" action="{% url 'comment' recipe.pk %}">
+        <form data-recipe-id="{{ recipe.pk }}">
             {% csrf_token %}
-            {{ comment_form }}
+            {{ comment_form.description }}
             <button type="submit">Post Comment</button>
         </form>
         </div>
