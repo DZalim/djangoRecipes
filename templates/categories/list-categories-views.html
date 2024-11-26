@@ -1,0 +1,45 @@
+{% extends 'common/base.html' %}
+{% block content %}
+    
+{% load static %}    
+<div class="category-div">
+    {% for category in category_list %}
+        <div class="category-box" data-category-id="{{ category.pk }}">
+            <div class="category-content">
+                <a href=""><h4 class="category-name">{{ category.category_name }}</h4></a>
+            </div>
+            <div class="category-actions">
+                <form action="{% url 'edit-delete-category' category.pk %}"
+                      class="category-edit-form" onsubmit="return false">
+                    {% csrf_token %}
+                    <button type="button" class="edit-category-btn"
+                            onclick="openEditCategoryModal({{ category.pk }}, '{{ category.category_name|escapejs }}')">
+                        <i class="fa-solid fa-pen"></i></button>
+                </form>
+                <form action="{% url 'edit-delete-category' category.pk %}"
+                      class="category-delete-form" onsubmit="return false">
+                    {% csrf_token %}
+                    <button type="button" class="category-comment-btn"
+                            onclick="openDeleteCategoryModal({{ category.pk }})"><i
+                            class="fa-solid fa-trash"></i></button>
+                </form>
+            </div>
+        </div>
+        {% include 'categories/edit-delete-category-modal.html' %}
+    {% empty %}
+        <h1 class="no-categories">
+            <span>No</span>
+            <span>Categories</span>
+            <span>Yet</span>
+        </h1>
+    {% endfor %}
+</div>    
+    
+{% include 'common/paginator.html' %}
+    
+<script src="{% static 'js/categories.js' %}"></script>
+    
+{% endblock %}
+
+
+

@@ -1,8 +1,12 @@
 {% extends 'common/base.html' %}
 {% block content %}
 
+{% include 'common/search.html' %}
+    
 {% include 'recipes/list-recipes.html' %}
     
 {% include 'common/paginator.html' %}
     
 {% endblock %}
+
+

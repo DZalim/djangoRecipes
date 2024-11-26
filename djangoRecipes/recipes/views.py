@@ -1,10 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
-from djangoRecipes.common.forms import CommentForm
+from djangoRecipes.common.forms import CommentForm, SearchForm
 from djangoRecipes.recipes.forms import CreateRecipeForm, EditRecipeForm
 from djangoRecipes.recipes.models import Recipe
 
@@ -32,10 +32,23 @@ class RecipesDashboard(ListView):
     context_object_name = 'recipes'
     paginate_by = 4
 
+    def get_queryset(self):
+
+        if self.request.user.is_staff:
+            queryset = Recipe.objects.filter(is_approved=False)
+        else:
+            queryset = Recipe.objects.filter(is_approved=True)
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["recipes"] = context["page_obj"]
-        check = context["recipes"].number
+        context['search_form'] = SearchForm(self.request.GET)
 
         return context
 
@@ -73,15 +86,22 @@ class DeleteRecipeView(DeleteView):
 class OwnRecipesView(ListView):
     template_name = "recipes/dashboard.html"
     context_object_name = 'recipes'
-    paginate_by = 8
+    paginate_by = 4
 
     def get_queryset(self):
         user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-        return Recipe.objects.filter(user=user)
+        queryset = Recipe.objects.filter(user=user)
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
 
         return context
 
@@ -90,14 +110,21 @@ class FavoriteRecipesView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Recipe
     template_name = "recipes/dashboard.html"
     context_object_name = 'recipes'
-    paginate_by = 8
+    paginate_by = 4
 
     def get_queryset(self):
-        return Recipe.objects.filter(likes__user=self.request.user)
+        queryset = Recipe.objects.filter(likes__user=self.request.user)
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
 
         return context
 
@@ -109,16 +136,31 @@ class CommentedRecipesView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Recipe
     template_name = "recipes/dashboard.html"
     context_object_name = 'recipes'
-    paginate_by = 8
+    paginate_by = 4
 
     def get_queryset(self):
-        return Recipe.objects.filter(comments__user=self.request.user).order_by('id').distinct('id')
+        queryset = Recipe.objects.filter(comments__user=self.request.user).order_by('id').distinct('id')
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
 
         return context
 
     def test_func(self):
         return self.request.user.id == int(self.kwargs['pk'])
+
+
+def approve_recipe(request, pk):
+    recipe = Recipe.objects.get(pk=pk)
+    recipe.is_approved = True
+    recipe.save()
+
+    return redirect(request.META.get('HTTP_REFERER'))

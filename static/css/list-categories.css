@@ -1,6 +1,8 @@
-.recipe-div {
+.category-div {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
@@ -8,29 +10,10 @@
     width: 70vw;
 }
 
-#recipes-container {
-    transition: opacity 0.3s ease;
-}
-
-#recipes-container.loading {
-    position: relative;
-}
-
-#recipes-container.loading::after {
-    content: 'Loading...'; /* Текст, който да показва зареждане */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    color: #888;
-}
-
-.recipe-box {
+.category-box {
     display: flex;
-    width: 300px;
-    flex-direction: column;
     justify-content: space-between;
+    width: 50vw;
     background-color: #fff;
     border: 2px solid #009AE5;
     border-radius: 15px;
@@ -39,67 +22,58 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.recipe-box:hover {
+.category-box:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.image-recipe {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid #009AE5;
-}
-
-.recipe-content {
+.category-content {
     display: flex;
     flex-direction: column;
+    font-variant: all-petite-caps;
     justify-content: space-around;
     padding: 15px;
     text-align: left;
 }
 
-.recipe-content h3 {
+.category-content h4 {
     font-size: 1.5rem;
     color: #009AE5;
     margin-bottom: 10px;
 }
 
-.recipe-content p {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 15px;
-}
-
-.recipe-link {
-    display: inline-block;
-    background-color: #009AE5;
-    color: white;
-    padding: 10px 15px;
-    max-width: 120px;
-    border-radius: 5px;
+.category-content a {
     text-decoration: none;
-    transition: background-color 0.3s ease;
 }
 
-.links {
+.category-actions {
     display: flex;
-    justify-content: space-between;
+    gap: 10px;
     align-items: center;
+    justify-content: flex-end;
+    margin-right: 10px;
 }
 
-.links .links-right a {
-    margin-left: 5px;
-    color: #007bbd;
-    font-size: 20px;
+.category-actions .delete-category-btn, .edit-category-btn {
+    border: none;
+    background-color: #f9f9f9;
 }
 
-
-.recipe-link:hover {
-    background-color: #007bbd;
+.category-actions button {
+    background-color: #009AE5;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
 }
 
-.no-recipes {
+.category-actions button:hover {
+    background-color: #0077cc;
+}
+
+.no-categories {
     margin-top: 50px;
     display: flex;
     justify-content: center;
@@ -113,7 +87,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.no-recipes span {
+.no-categories span {
     display: inline-block;
     padding: 5px 15px;
     background: linear-gradient(135deg, #007bbd, #009AE5);
@@ -125,20 +99,20 @@
     animation: fadeIn 1s ease forwards;
 }
 
-.no-recipes span:nth-child(1) {
+.no-categories span:nth-child(1) {
     animation-delay: 0.1s;
 }
-.no-recipes span:nth-child(2) {
+.no-categories span:nth-child(2) {
     animation-delay: 0.3s;
 }
-.no-recipes span:nth-child(3) {
+.no-categories span:nth-child(3) {
     animation-delay: 0.5s;
 }
-.no-recipes span:nth-child(4) {
+.no-categories span:nth-child(4) {
     animation-delay: 0.7s;
 }
 
-.no-recipes span:hover {
+.no-categories span:hover {
     transform: scale(1.1);
     background: linear-gradient(135deg, #005fa3, #007bbd);
 }
@@ -154,5 +128,3 @@
         transform: translateY(0);
     }
 }
-
-

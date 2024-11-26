@@ -1,0 +1,21 @@
+{% load static %}
+
+<!-- Delete Modal -->
+<div id="categoryDeleteModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <p>Are you sure you want to delete this category?</p>
+        <button class="confirm-delete" onclick="confirmCategoryDelete()">Yes</button>
+        <button class="cancel-delete" onclick="closeDeleteCategoryModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="categoryEditModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <textarea id="editCategoryText" rows="4"></textarea>
+        <div class="modal-buttons">
+            <button class="confirm-edit" onclick="confirmEditCategory()">Save</button>
+            <button class="cancel-edit" onclick="closeEditCategoryModal()">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 {% load static %}
 
-<div class="recipe-div">
+<div class="recipe-div" id="recipes-container">
 
     {% for recipe in recipes %}
         <div class="recipe-box">
@@ -11,15 +11,31 @@
                      class="image-recipe">
             {% endif %}
             <div class="recipe-content">
+            
                 <h3> {{ recipe.recipe_name }}
                     {% if request.user == recipe.user %}
                         <i class="fa-solid fa-crown"></i>
                     {% endif %}
                 </h3>
-                
+            
                 <p> Difficulty level: {{ recipe.difficulty_level }}</p>
                 <p> Portions: {{ recipe.portions }}</p>
-                <a href="{% url 'recipe-details' recipe.pk %}" class="recipe-link">View Recipe</a>
+                <p>Category: {{ recipe.category.category_name }}</p>
+                
+                <div class="links">
+                    <div class="links-left">
+                        <a href="{% url 'recipe-details' recipe.pk %}" class="recipe-link">View Recipe</a>
+                    </div>
+                
+                    {%  if request.user.is_staff and not recipe.is_approved %}
+                        <div class="links-right">
+                            <a href="{% url 'approve-recipe' recipe.pk %}"><i class="fa-solid fa-check"></i></a>
+                        </div>
+                    {% endif %}
+                    
+                </div>    
+            
+                
             </div>
         </div>
     {% empty %}

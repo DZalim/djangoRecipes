@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from rest_framework import serializers
 from rest_framework import status
@@ -10,10 +10,6 @@ from rest_framework.response import Response
 from djangoRecipes.common.models import Like, Comment
 from djangoRecipes.common.serializers import CommentSerializer
 from djangoRecipes.recipes.models import Recipe
-
-
-def home_view(request):
-    return render(request, 'common/home-view.html')
 
 
 @login_required

@@ -31,6 +31,7 @@ class Recipe(TimeStampMixin):
     cooking_time = models.SmallIntegerField(validators=[MinValueValidator(1)], )  # should be in minutes
     ingredients = models.TextField(validators=[SemicolonValidator()])  # must be entered with a semicolon(;)
     description = models.TextField(validators=[MinLengthValidator(50)])
+    is_approved = models.BooleanField(default=False)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="recipes")
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="recipes")

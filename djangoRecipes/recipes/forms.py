@@ -8,7 +8,7 @@ from djangoRecipes.recipes.models import Recipe
 class BaseRecipeForm(LabelMixin, forms.ModelForm):
     class Meta:
         model = Recipe
-        exclude = ["user"]
+        exclude = ["user", "is_approved"]
 
         widgets = {
             'portions': forms.NumberInput(
@@ -58,7 +58,7 @@ class CreateRecipeForm(BaseRecipeForm):
 class EditRecipeForm(BaseRecipeForm):
     class Meta:
         model = Recipe
-        exclude = ["user"]
+        exclude = ["user", "is_approved"]
 
     def clean_recipe_name(self):
         recipe_name = self.cleaned_data['recipe_name']

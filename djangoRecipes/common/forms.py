@@ -13,3 +13,6 @@ class CommentForm(forms.ModelForm):
                 attrs={'placeholder': 'Add your comment....'}
             )
         }
+
+class SearchForm(forms.Form):
+    search_criteria = forms.CharField(required=False)

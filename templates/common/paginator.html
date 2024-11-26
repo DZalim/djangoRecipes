@@ -2,33 +2,24 @@
     
 {% if recipes.paginator.num_pages > 1 %}
     
-    <div class="pagination">
+    <div class="pagination" id="pagination-container">
     
         <span class="current">
                 Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}
         </span>
     
         <span class="step-links-buttons">
-        
-            {% if recipes.has_previous and recipes.has_next %}
-                 <a href="?{% url_query_append_tag request 'page' recipes.previous_page_number %}">
+            {% if recipes.has_previous %}
+                <a href="?page={{ recipes.previous_page_number }}&search_criteria={{ request.GET.search_criteria }}">
                     <i class="fa-solid fa-arrow-left"></i>
                 </a>
-                <a href="?{% url_query_append_tag request 'page' recipes.next_page_number %}">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                
-            {% elif recipes.has_previous %}
-                <a href="?{% url_query_append_tag request 'page' recipes.previous_page_number %}">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </a>
-                
-            {% elif recipes.has_next %}
-                <a href="?{% url_query_append_tag request 'page' recipes.next_page_number %}">
+            {% endif %}
+
+            {% if recipes.has_next %}
+                <a href="?page={{ recipes.next_page_number }}&search_criteria={{ request.GET.search_criteria }}">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             {% endif %}
-        
         </span>
     
     </div>

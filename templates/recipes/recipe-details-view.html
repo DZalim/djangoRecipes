@@ -2,63 +2,72 @@
 {% load static %}
 {% block content %}
 
-<div class="recipe-details">
-    
-    <div class="recipe-details-top">
-        
-        <div class="recipe-photo-gallery">
-            <button class="prev-btn">&lt;</button>
-            <div class="photo-slider">
-                {% for photo in recipe.photos.all %}
+    <div class="recipe-details">
 
-                    <div class="photo-container">
-                        <img src="{{ photo.photo_url }}" alt="{{ recipe.recipe_name }}" class="recipe-image">
-                        {% if user == recipe.user %}
-                            <div class="photo-controls">
-                                <button type="button" class="delete-btn" onclick="openDeleteModal(this)">Delete Photo</button>
-                            </div>
-                                
-                            <div class="modal delete-modal">
-                                <div class="modal-content">
-                                    <p>Are you sure you want to delete this photo?</p>
-                                    <form method="post" action="{% url 'delete-recipe-photo' recipe.pk photo.pk %}" class="delete-form">
-                                        {% csrf_token %}
-                                        <button type="submit" class="confirm-delete">Yes</button>
-                                        <button type="button" class="cancel-delete" onclick="closeDeleteModal(this)">Cancel</button>
-                                    </form>
+        <div class="recipe-details-top">
+
+            <div class="recipe-photo-gallery">
+                <button class="prev-btn">&lt;</button>
+                <div class="photo-slider">
+                    {% for photo in recipe.photos.all %}
+
+                        <div class="photo-container">
+                            <img src="{{ photo.photo_url }}" alt="{{ recipe.recipe_name }}" class="recipe-image">
+                            {% if user == recipe.user %}
+                                <div class="photo-controls">
+                                    <button type="button" class="delete-btn" onclick="openDeleteModal(this)">Delete
+                                        Photo
+                                    </button>
                                 </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% empty %}
-                    <div class="photo-container">
-                        <img src="{% static 'images/no-photo-recipe2.png' %}" alt="No photo available" class="recipe-image">
-                    </div>
-                {% endfor %}
+
+                                <div class="modal delete-modal">
+                                    <div class="modal-content">
+                                        <p>Are you sure you want to delete this photo?</p>
+                                        <form method="post" action="{% url 'delete-recipe-photo' recipe.pk photo.pk %}"
+                                              class="delete-form">
+                                            {% csrf_token %}
+                                            <button type="submit" class="confirm-delete">Yes</button>
+                                            <button type="button" class="cancel-delete"
+                                                    onclick="closeDeleteModal(this)">Cancel
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <div class="photo-container">
+                            <img src="{% static 'images/no-photo-recipe2.png' %}" alt="No photo available"
+                                 class="recipe-image">
+                        </div>
+                    {% endfor %}
+                </div>
+                <button class="next-btn">&gt;</button>
             </div>
-            <button class="next-btn">&gt;</button>
-        </div>
-    
-        <div class="recipe-main-info">
-            <h1>{{ recipe.recipe_name }}</h1>
-        
-            {% if user == recipe.user %}
-            <div class="action-buttons">
-                <a href="{% url 'edit-recipe' recipe.pk %}" class="edit-btn">Edit Recipe</a>
+
+            <div class="recipe-main-info">
+                <h1>{{ recipe.recipe_name }}</h1>
+
+                {% if user == recipe.user %}
+                    <div class="action-buttons">
+                        <a href="{% url 'edit-recipe' recipe.pk %}" class="edit-btn">Edit Recipe</a>
+
+                        <a href="{% url 'add-recipe-photo' recipe.pk %}" class="edit-btn">Add Photo</a>
+
+                        <form method="post" action="{% url 'delete-recipe' recipe.pk %}" class="recipe-delete-form">
+                            {% csrf_token %}
+                            <button type="button" class="delete-btn" onclick="openRecipeDeleteModal()">Delete Recipe
+                            </button>
+                        </form>
+                        {% include 'recipes/recipe-delete-confirm.html' %}
+                    </div>
+                {% endif %}
                 
-                <a href="{% url 'add-recipe-photo' recipe.pk %}" class="edit-btn">Add Photo</a>
+                <h3>Category: {{ recipe.category.category_name }}</h3>
                 
-                <form method="post" action="{% url 'delete-recipe' recipe.pk %}" class="recipe-delete-form">
-                    {% csrf_token %}
-                    <button type="button" class="delete-btn" onclick="openRecipeDeleteModal()">Delete Recipe</button>
-                </form>
-                {% include 'recipes/recipe-delete-confirm.html' %}
-            </div>
-            {% endif %}
-    
-            <div class="like-info">
-                <p>Total likes: {{ recipe.likes.count }}</p>
-                <span class="heart">
+                <div class="like-info">
+                    <p>Total likes: {{ recipe.likes.count }}</p>
+                    <span class="heart">
                     <a href="{% url 'like' recipe.id %}">
                         {% if recipe.has_liked %}
                             <i class="fa-solid fa-heart"></i>
@@ -67,102 +76,111 @@
                         {% endif %}
                     </a>
                 </span>
-            </div>
-            <div class="comment-info">
-                <p>Total comments: {{ recipe.comments.count }}</p>
-                <a href="#comment">
-                    <i class="fa-solid fa-comment"></i>
-                </a>
-            </div>
-            
-            <div class="time-info">
-                <div>
-                    <i class="fa-regular fa-clock"></i>
                 </div>
-                <div>
-                    <p>Preparation time: {{ recipe.preparing_time }} min</p>
-                    <p>Cooking time: {{ recipe.cooking_time }} min</p>
+                <div class="comment-info">
+                    <p>Total comments: {{ recipe.comments.count }}</p>
+                    <a href="#comment">
+                        <i class="fa-solid fa-comment"></i>
+                    </a>
                 </div>
-                
-            </div>
-            <div class="difficulty-info">
-                <i class="fa-solid fa-kitchen-set"></i>
-                <p>{{ recipe.difficulty_level }}</p>
-            </div>
-            <div class="portions-info">
-                <i class="fa-solid fa-utensils"></i>
-                <p>Serves: {{ recipe.portions }}</p>
-            </div>
-            
-            <div class="recipe-owner">
-                <i class="fa-solid fa-circle-user"></i>
-                <a href="{% url 'own-recipes' recipe.user.pk %}"><p>{{ recipe.user.profile.get_full_name }}</p></a>
+
+                <div class="time-info">
+                    <div>
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+                    <div>
+                        <p>Preparation time: {{ recipe.preparing_time }} min</p>
+                        <p>Cooking time: {{ recipe.cooking_time }} min</p>
+                    </div>
+
+                </div>
+                <div class="difficulty-info">
+                    <i class="fa-solid fa-kitchen-set"></i>
+                    <p>{{ recipe.difficulty_level }}</p>
+                </div>
+                <div class="portions-info">
+                    <i class="fa-solid fa-utensils"></i>
+                    <p>Serves: {{ recipe.portions }}</p>
+                </div>
+
+                <div class="recipe-owner">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <a href="{% url 'own-recipes' recipe.user.pk %}"><p>{{ recipe.user.profile.get_full_name }}</p></a>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="recipe-details-mid">
-        <!-- Секция за съставки -->
-        <div class="ingredients-section">
-            <h2>Ingredients</h2>
-            <ul>
-                {% for ingredient in ingredients %}
-                    <li>{{ ingredient }}</li>
-                {% endfor %}
-            </ul>
+
+        <div class="recipe-details-mid">
+            <!-- Секция за съставки -->
+            <div class="ingredients-section">
+                <h2>Ingredients</h2>
+                <ul>
+                    {% for ingredient in ingredients %}
+                        <li>{{ ingredient }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Описание как се приготвя -->
+            <div class="instructions-section">
+                <h2>How to Cook</h2>
+                <p>{{ recipe.description }}</p>
+            </div>
         </div>
-    
-        <!-- Описание как се приготвя -->
-        <div class="instructions-section">
-            <h2>How to Cook</h2>
-            <p>{{ recipe.description }}</p>
-        </div>
-    </div>
-    
-    <div class="recipe-details-bottom">
-        <!-- Коментари -->
-        <div class="comment-section">
-            <h2>Comments</h2>
-            <div class="comments-container">
-                {% for comment in recipe.comments.all %}
-                    <div class="comment-box" data-comment-id="{{ comment.id }}">
-                        <div class="comment-header">
-                            <h3>{{ comment.user.profile.get_full_name }}</h3>
-                            <span>{{ comment.created_at }}</span>
+
+        <div class="recipe-details-bottom">
+            <!-- Коментари -->
+            <div class="comment-section">
+                <h2>Comments</h2>
+                <div class="comments-container">
+                    {% for comment in recipe.comments.all %}
+                        <div class="comment-box" data-comment-id="{{ comment.id }}">
+                            <div class="comment-header">
+                                <h3>{{ comment.user.profile.get_full_name }}</h3>
+                                <span>{{ comment.created_at }}</span>
+                            </div>
+                            <p class="comment-text">{{ comment.description }}</p>
+                            {% if user == comment.user %}
+                                <div class="comment-actions">
+                                    <form action="{% url 'edit-delete-comment' recipe.id comment.id %}"
+                                          class="comment-edit-form" onsubmit="return false">
+                                        {% csrf_token %}
+                                        <button type="button" class="edit-comment-btn"
+                                                onclick="openEditCommentModal({{ recipe.id }}, {{ comment.id }}, '{{ comment.description|escapejs }}')">
+                                            <i class="fa-solid fa-pen"></i></button>
+                                    </form>
+                                    <form action="{% url 'edit-delete-comment' recipe.id comment.id %}"
+                                          class="comment-delete-form" onsubmit="return false">
+                                        {% csrf_token %}
+                                        <button type="button" class="delete-comment-btn"
+                                                onclick="openDeleteCommentModal({{ recipe.id }}, {{ comment.id }})"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            {% endif %}
                         </div>
-                        <p class="comment-text">{{ comment.description }}</p>
-                    {% if user == comment.user %}    
-                    <div class="comment-actions">
-                        <form action="{% url 'edit-delete-comment' recipe.id comment.id %}" class="comment-edit-form">
-                            {% csrf_token %}
-                            <button type="button" class="edit-comment-btn" onclick="openEditCommentModal({{ recipe.id }}, {{ comment.id }}, '{{ comment.description|escapejs }}')"><i class="fa-solid fa-pen"></i></button>
-                        </form>
-                        <form action="{% url 'edit-delete-comment' recipe.id comment.id %}" class="comment-delete-form">
-                            {% csrf_token %}
-                            <button type="button" class="delete-comment-btn" onclick="openDeleteCommentModal({{ recipe.id }}, {{ comment.id }})"><i class="fa-solid fa-trash"></i></button>
-                        </form>
-                        {% include 'comments/edit-delete-comment-modal.html' %}
-                    </div>
-                    {% endif %}
-                    </div>
-                {% empty %}
-                    <h6>No comments yet</h6>
-                {% endfor %}
+                    {% empty %}
+                        <h6>No comments yet</h6>
+                    {% endfor %}
+
+                    {% include 'comments/edit-delete-comment-modal.html' %}
+            
+
+                </div>
+            </div>
+
+            <!-- Форма за добавяне на коментари -->
+            <div class="add-comment-form" id="comment">
+                <form data-recipe-id="{{ recipe.pk }}">
+                    {% csrf_token %}
+                    {{ comment_form.description }}
+                    <button type="submit">Post Comment</button>
+                </form>
             </div>
         </div>
-    
-        <!-- Форма за добавяне на коментари -->
-        <div class="add-comment-form" id="comment">
-        <form data-recipe-id="{{ recipe.pk }}">
-            {% csrf_token %}
-            {{ comment_form.description }}
-            <button type="submit">Post Comment</button>
-        </form>
-        </div>
     </div>
-</div>
-    
-<script src="{% static 'js/recipe-gallery.js' %}"></script>
-<script src="{% static 'js/comment.js' %}"></script>
+
+    <script src="{% static 'js/recipe-gallery.js' %}"></script>
+    <script src="{% static 'js/comments.js' %}"></script>
 
 {% endblock %}

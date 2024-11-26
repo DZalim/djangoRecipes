@@ -1,9 +1,10 @@
 from django.urls import path, include
 
 from djangoRecipes.common import views
+from djangoRecipes.recipes import views as recipe_views
 
 urlpatterns = [
-    path('', views.home_view, name='home'),
+    path('', recipe_views.RecipesDashboard.as_view(), name='dashboard'),
     path('<int:recipe_id>/', include([
         path('like', views.like_functionality, name='like'),
         path('comment/', include([
