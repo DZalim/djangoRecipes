@@ -94,8 +94,12 @@ function confirmEditCategory() {
         .then(response => {
             if (response.status === 200) {
                 return response.json();
+            } else if (response.status === 400) {
+                return response.json().then(data => {
+                    throw new Error(data.category_name?.[0] || "An error occurred.");
+                });
             } else {
-                return response.text();
+                throw new Error("An unexpected error occurred.");
             }
         })
         .then(data => {
@@ -105,12 +109,11 @@ function confirmEditCategory() {
                     categoryTextElement.innerText = newName;
                 }
                 closeEditCategoryModal();
-            } else {
-                alert('Error editing category.');
             }
+
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while editing the category.');
+            alert(error.message);
         });
 }

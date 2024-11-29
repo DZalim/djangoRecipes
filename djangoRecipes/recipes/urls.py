@@ -4,6 +4,8 @@ from djangoRecipes.photos import views as photo_views
 from djangoRecipes.recipes import views
 
 urlpatterns = [
+    path('approved/', views.RecipeDashboardApproved.as_view(), name='approved'),
+    path('pending/', views.RecipeDashboardPending.as_view(), name='pending'),
     path('add/', views.AddRecipeView.as_view(), name='add-recipe'),
     path('<int:pk>/', include([
         path('', views.RecipeDetailsView.as_view(), name='recipe-details'),

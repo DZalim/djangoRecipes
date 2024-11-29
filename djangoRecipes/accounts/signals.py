@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 
 from djangoRecipes.accounts.models import Profile
@@ -12,3 +12,9 @@ UserModel = get_user_model()
 def create_profile(sender, instance: UserModel, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+@receiver(pre_delete, sender=UserModel)
+def delete_user_profile_picture(sender, instance, **kwargs):
+    instance.profile_picture.delete_photo_from_cloudinary()
+

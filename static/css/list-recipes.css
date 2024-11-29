@@ -82,6 +82,11 @@
     transition: background-color 0.3s ease;
 }
 
+.staff-links .recipe-link {
+    width: 100px;
+    text-align: center;
+}
+
 .links {
     display: flex;
     justify-content: space-between;

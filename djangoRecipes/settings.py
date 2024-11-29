@@ -37,12 +37,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g-8j@0a=!ybdypy88%p=&!f!fd2w6tcx5#a+&7t@b546ae(cu&'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 't', 'y', 'yes']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='localhost').split(',')
 
 # Application definition
 
@@ -157,14 +157,11 @@ STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
 
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = BASE_DIR / 'mediafiles/'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.AppUser'
-LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 LOGOUT_REDIRECT_URL = reverse_lazy('login')

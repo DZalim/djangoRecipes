@@ -3,11 +3,11 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 from rest_framework.generics import UpdateAPIView, DestroyAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from unicodedata import category
 
 from djangoRecipes.categories.forms import CategoryForm
 from djangoRecipes.categories.models import Category
 from djangoRecipes.categories.serializers import CategorySerializer
+from djangoRecipes.common.forms import SearchForm
 
 
 class AddCategoryView(LoginRequiredMixin, CreateView):
@@ -22,6 +22,7 @@ class AddCategoryView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+
 class CategoryListView(ListView):
     model = Category
     template_name = "categories/list-categories-views.html"
@@ -34,7 +35,6 @@ class CategoryEditDeleteView(UpdateAPIView, DestroyAPIView):
     def get_object(self):
         category_id = self.kwargs.get('pk')
         return get_object_or_404(Category, pk=category_id)
-
 
     # def update(self, request, *args, **kwargs):
     #     comment = self.get_object()
@@ -50,3 +50,25 @@ class CategoryEditDeleteView(UpdateAPIView, DestroyAPIView):
     #
     #     return Response({'success': False, 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class CategoryRecipesView(ListView):
+    template_name = "recipes/dashboard.html"
+    context_object_name = 'recipes'
+    paginate_by = 4
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        queryset = category.recipes.all()
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
+
+        return context

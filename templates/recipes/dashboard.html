@@ -3,7 +3,16 @@
 
 {% include 'common/search.html' %}
     
-{% include 'recipes/list-recipes.html' %}
+{% if request.user.is_staff and main_page%}
+    <div class="staff-links">
+        <a href="{% url 'dashboard' %}" class="recipe-link">All</a>
+        <a href="{% url 'approved' %}" class="recipe-link">Approved</a>
+        <a href="{% url 'pending' %}" class="recipe-link">Pending</a>
+    </div>
+{% endif %}    
+    
+    
+{% include 'recipes/list-recipes.html'%}
     
 {% include 'common/paginator.html' %}
     

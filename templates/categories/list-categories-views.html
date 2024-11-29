@@ -6,7 +6,12 @@
     {% for category in category_list %}
         <div class="category-box" data-category-id="{{ category.pk }}">
             <div class="category-content">
-                <a href=""><h4 class="category-name">{{ category.category_name }}</h4></a>
+                <a href="{% url 'category-recipes' category.pk %}"><h4 class="category-name">{{ category.category_name }}</h4></a>
+                {% if category.recipes.all.count > 0 %}
+                    <p>{{ category.recipes.all.count }} recipes have been added to this category</p>
+                {% else %}
+                    <p>There are no recipes added to this category yet</p>
+                {% endif %}
             </div>
             <div class="category-actions">
                 <form action="{% url 'edit-delete-category' category.pk %}"

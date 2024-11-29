@@ -33,11 +33,12 @@ class RecipesDashboard(ListView):
     paginate_by = 4
 
     def get_queryset(self):
+        queryset = Recipe.objects.all()
 
-        if self.request.user.is_staff:
-            queryset = Recipe.objects.filter(is_approved=False)
-        else:
-            queryset = Recipe.objects.filter(is_approved=True)
+        # if self.request.user.is_staff:
+        #     queryset = Recipe.objects.filter(is_approved=False)
+        # else:
+        #     queryset = Recipe.objects.filter(is_approved=True)
 
         search_query = self.request.GET.get('search_criteria', '').strip()
         if search_query:
@@ -49,9 +50,56 @@ class RecipesDashboard(ListView):
         context = super().get_context_data(**kwargs)
         context["recipes"] = context["page_obj"]
         context['search_form'] = SearchForm(self.request.GET)
+        context["main_page"] = True if self.request.user.is_staff else False
 
         return context
 
+
+class RecipeDashboardApproved(ListView):
+    model = Recipe
+    template_name = "recipes/dashboard.html"
+    context_object_name = 'recipes'
+    paginate_by = 4
+
+    def get_queryset(self):
+        queryset = Recipe.objects.filter(is_approved=True)
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
+        context["main_page"] = True if self.request.user.is_staff else False
+
+        return context
+
+class RecipeDashboardPending(ListView):
+    model = Recipe
+    template_name = "recipes/dashboard.html"
+    context_object_name = 'recipes'
+    paginate_by = 4
+
+    def get_queryset(self):
+        queryset = Recipe.objects.filter(is_approved=False)
+
+        search_query = self.request.GET.get('search_criteria', '').strip()
+        if search_query:
+            queryset = queryset.filter(recipe_name__icontains=search_query)
+
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["recipes"] = context["page_obj"]
+        context['search_form'] = SearchForm(self.request.GET)
+        context["main_page"] = True if self.request.user.is_staff else None
+
+        return context
 
 class RecipeDetailsView(DetailView):
     model = Recipe
