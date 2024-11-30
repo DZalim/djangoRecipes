@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from djangoRecipes.common.models import Like, Comment
+from djangoRecipes.common.permissions import IsSameUser
 from djangoRecipes.common.serializers import CommentSerializer
 from djangoRecipes.recipes.models import Recipe
 
@@ -51,7 +52,7 @@ class CommentCreateView(CreateAPIView):
 
 class CommentEditDeleteView(UpdateAPIView, DestroyAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsSameUser]
 
     def get_object(self):
         comment_id = self.kwargs.get('comment_id')

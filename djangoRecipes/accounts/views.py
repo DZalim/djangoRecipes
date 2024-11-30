@@ -6,6 +6,7 @@ from django.views.generic import CreateView, DetailView, DeleteView, UpdateView
 from djangoRecipes.accounts.forms import AppUserCreationForm, ProfileEditForm
 from djangoRecipes.accounts.models import Profile
 from djangoRecipes.common.models import Comment
+from djangoRecipes.common.permissions import SameUserPermissions
 from djangoRecipes.recipes.forms import CreateRecipeForm
 
 UserModel = get_user_model()
@@ -27,7 +28,7 @@ class AppUserRegisterView(CreateView):
         return response
 
 
-class ProfileDetailsView(DetailView):
+class ProfileDetailsView(SameUserPermissions, DetailView):
     model = UserModel
     template_name = "accounts/profile-details-view.html"
 
@@ -42,7 +43,7 @@ class ProfileDetailsView(DetailView):
         return context
 
 
-class EditProfileView(UpdateView):
+class EditProfileView(SameUserPermissions, UpdateView):
     model = Profile
     form_class = ProfileEditForm
     template_name = "accounts/update-profile-form.html"
@@ -51,6 +52,6 @@ class EditProfileView(UpdateView):
         return reverse_lazy('profile-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class DeleteProfileView(DeleteView):
+class DeleteProfileView(SameUserPermissions, DeleteView):
     model = UserModel
     success_url = reverse_lazy("dashboard")

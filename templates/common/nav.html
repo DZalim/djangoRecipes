@@ -9,19 +9,21 @@
             </a>
         </li>
         {% if request.user.is_authenticated %}
-        <li class="menu-item">
-            <a href="{% url 'add-category' %}" class="menu-link">
-                <i class="fa-solid fa-folder-plus"></i>
-                <span>Add Category</span>
-            </a>
-        </li>
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <li class="menu-item">
+                    <a href="{% url 'add-category' %}" class="menu-link">
+                        <i class="fa-solid fa-folder-plus"></i>
+                        <span>Add Category</span>
+                    </a>
+                </li>
+            {% endif %}    
 
-        <li class="menu-item">
-            <a href="{% url 'add-recipe' %}" class="menu-link">
-                <i class="fa-solid fa-file-circle-plus"></i>
-                <span>Add Recipe</span>
-            </a>
-        </li>
+            <li class="menu-item">
+                <a href="{% url 'add-recipe' %}" class="menu-link">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <span>Add Recipe</span>
+                </a>
+            </li>
         {% endif %}
     </ul>
 </div>

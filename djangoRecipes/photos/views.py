@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 
+from djangoRecipes.common.permissions import SameUserPermissions, AnonymousUserPermissions
 from djangoRecipes.photos.forms import AddRecipePhotoForm, AddUserPhotoForm
 from djangoRecipes.photos.models import RecipePhotos, UsersPhoto
 from djangoRecipes.recipes.models import Recipe
@@ -9,7 +10,7 @@ from djangoRecipes.recipes.models import Recipe
 UserModel = get_user_model()
 
 
-class AddRecipePhotoView(CreateView):
+class AddRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, CreateView):
     model = RecipePhotos
     form_class = AddRecipePhotoForm
     template_name = "photos/add-photo-view.html"
@@ -28,7 +29,7 @@ class AddRecipePhotoView(CreateView):
         return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class DeleteRecipePhotoView(DeleteView):
+class DeleteRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, DeleteView):
     model = RecipePhotos
 
     def get_object(self, queryset=None):
@@ -38,7 +39,7 @@ class DeleteRecipePhotoView(DeleteView):
         return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class AddUserPhotoView(CreateView):
+class AddUserPhotoView(AnonymousUserPermissions, SameUserPermissions, CreateView):
     model = UsersPhoto
     form_class = AddUserPhotoForm
     template_name = "photos/add-photo-view.html"
@@ -57,7 +58,7 @@ class AddUserPhotoView(CreateView):
         return reverse_lazy('profile-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class ChangeUserPhotoView(UpdateView):
+class ChangeUserPhotoView(AnonymousUserPermissions, SameUserPermissions,UpdateView):
     model = UsersPhoto
     form_class = AddUserPhotoForm
     template_name = "photos/change-photo-view.html"
@@ -74,7 +75,7 @@ class ChangeUserPhotoView(UpdateView):
         return reverse_lazy('profile-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class DeleteUserPhotoView(DeleteView):
+class DeleteUserPhotoView(AnonymousUserPermissions, SameUserPermissions,DeleteView):
     model = UsersPhoto
 
     def get_object(self, queryset=None):

@@ -3,15 +3,21 @@
     
 {% load static %}    
 <div class="category-div">
-    {% for category in category_list %}
+    {% for category in categories %}
         <div class="category-box" data-category-id="{{ category.pk }}">
             <div class="category-content">
                 <a href="{% url 'category-recipes' category.pk %}"><h4 class="category-name">{{ category.category_name }}</h4></a>
-                {% if category.recipes.all.count > 0 %}
-                    <p>{{ category.recipes.all.count }} recipes have been added to this category</p>
-                {% else %}
+                {% for category_pk, count in category_recipes_count.items %}
+                    {% if category_pk == category.pk and count > 0 %}
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                            <p>{{ category.recipes.count }} recipes have been added to this category</p>
+                        {% else %}    
+                            <p>{{ count}} recipes have been added to this category</p>
+                        {% endif %}
+                    {% endif %}
+                {% empty %}
                     <p>There are no recipes added to this category yet</p>
-                {% endif %}
+                {% endfor %}    
             </div>
             <div class="category-actions">
                 <form action="{% url 'edit-delete-category' category.pk %}"
