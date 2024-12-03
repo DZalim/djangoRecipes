@@ -35,3 +35,6 @@ class Recipe(TimeStampMixin):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="recipes")
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="recipes")
+
+    def __str__(self):
+        return self.recipe_name

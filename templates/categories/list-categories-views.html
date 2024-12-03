@@ -19,24 +19,27 @@
                     <p>There are no recipes added to this category yet</p>
                 {% endfor %}    
             </div>
-            <div class="category-actions">
-                <form action="{% url 'edit-delete-category' category.pk %}"
-                      class="category-edit-form" onsubmit="return false">
-                    {% csrf_token %}
-                    <button type="button" class="edit-category-btn"
-                            onclick="openEditCategoryModal({{ category.pk }}, '{{ category.category_name|escapejs }}')">
-                        <i class="fa-solid fa-pen"></i></button>
-                </form>
-                <form action="{% url 'edit-delete-category' category.pk %}"
-                      class="category-delete-form" onsubmit="return false">
-                    {% csrf_token %}
-                    <button type="button" class="category-comment-btn"
-                            onclick="openDeleteCategoryModal({{ category.pk }})"><i
-                            class="fa-solid fa-trash"></i></button>
-                </form>
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <div class="category-actions">
+                    <form action="{% url 'edit-delete-category' category.pk %}"
+                          class="category-edit-form" onsubmit="return false">
+                        {% csrf_token %}
+                        <button type="button" class="edit-category-btn"
+                                onclick="openEditCategoryModal({{ category.pk }}, '{{ category.category_name|escapejs }}')">
+                            <i class="fa-solid fa-pen"></i></button>
+                    </form>
+                    <form action="{% url 'edit-delete-category' category.pk %}"
+                          class="category-delete-form" onsubmit="return false">
+                        {% csrf_token %}
+                        <button type="button" class="category-comment-btn"
+                                onclick="openDeleteCategoryModal({{ category.pk }})"><i
+                                class="fa-solid fa-trash"></i></button>
+                    </form>
+                </div>
+                {% include 'categories/edit-delete-category-modal.html' %}
+            {% endif %}
+        
             </div>
-        </div>
-        {% include 'categories/edit-delete-category-modal.html' %}
     {% empty %}
         <h1 class="no-categories">
             <span>No</span>

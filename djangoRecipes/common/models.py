@@ -19,7 +19,13 @@ class Comment(TimeStampMixin):
     to_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="comments")
 
+    def comment_info(self):
+        return f"Comment added from {self.user} to recipe {self.to_recipe.recipe_name}"
+
 
 class Like(models.Model):
     to_recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="likes")
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="likes")
+
+    def like_info(self):
+        return f"User '{self.user}' has liked recipe - '{self.to_recipe.recipe_name}'"

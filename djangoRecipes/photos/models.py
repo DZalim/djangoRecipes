@@ -51,6 +51,14 @@ class BasePhoto(TimeStampMixin):
 class UsersPhoto(BasePhoto):
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name="profile_picture")
 
+    class Meta:
+        verbose_name = "User Photo"
+        verbose_name_plural = "User Photos"
+
 
 class RecipePhotos(BasePhoto):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="photos")
+
+    class Meta:
+        verbose_name = "Recipe Photo"
+        verbose_name_plural = "Recipes Photos"

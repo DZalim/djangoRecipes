@@ -17,5 +17,8 @@ class Category(TimeStampMixin):
 
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="categories")
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.category_name

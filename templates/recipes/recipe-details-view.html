@@ -81,7 +81,7 @@
                 </div>
                 <div class="comment-info">
                     <p>Total comments: {{ recipe.comments.count }}</p>
-                    <a href="#comment">
+                    <a href="#view-comments">
                         <i class="fa-solid fa-comment"></i>
                     </a>
                 </div>
@@ -133,7 +133,7 @@
         <div class="recipe-details-bottom">
             <!-- Коментари -->
             <div class="comment-section">
-                <h2>Comments</h2>
+                <h2 id="view-comments">Comments</h2>
                 <div class="comments-container">
                     {% for comment in recipe.comments.all %}
                         <div class="comment-box" data-comment-id="{{ comment.id }}">
