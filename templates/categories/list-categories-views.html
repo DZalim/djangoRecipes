@@ -8,17 +8,21 @@
             <div class="category-content">
                 <a href="{% url 'category-recipes' category.pk %}"><h4 class="category-name">{{ category.category_name }}</h4></a>
                 {% for category_pk, count in category_recipes_count.items %}
-                    {% if category_pk == category.pk and count > 0 %}
+                    {% if category_pk == category.pk %}
                         {% if request.user.is_staff or request.user.is_superuser %}
                             <p>{{ category.recipes.count }} recipes have been added to this category</p>
                         {% else %}    
-                            <p>{{ count}} recipes have been added to this category</p>
-                        {% endif %}
+                            {% if  count > 0%}
+                                <p>{{ count}} recipes have been added to this category</p>
+                            {% else %}
+                                <p>There are no recipes added to this category yet</p>
+                            {% endif %}    
+                        {% endif %}    
                     {% endif %}
-                {% empty %}
-                    <p>There are no recipes added to this category yet</p>
-                {% endfor %}    
+                {% endfor %}
+
             </div>
+        
             {% if request.user.is_staff or request.user.is_superuser %}
                 <div class="category-actions">
                     <form action="{% url 'edit-delete-category' category.pk %}"
@@ -36,10 +40,9 @@
                                 class="fa-solid fa-trash"></i></button>
                     </form>
                 </div>
-                {% include 'categories/edit-delete-category-modal.html' %}
             {% endif %}
-        
             </div>
+        {% include 'categories/edit-delete-category-modal.html' %}
     {% empty %}
         <h1 class="no-categories">
             <span>No</span>

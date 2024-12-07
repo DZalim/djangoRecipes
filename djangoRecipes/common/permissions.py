@@ -1,45 +1,32 @@
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from rest_framework.permissions import BasePermission
 
 
-class AnonymousUserPermissions(UserPassesTestMixin):
+class StaffAndSuperUserPermissions(UserPassesTestMixin):
     def test_func(self):
-        return not self.request.user.is_anonymous
+        user = self.request.user
+        return not user.is_anonymous and (user.is_staff or user.is_superuser)
 
     def handle_no_permission(self):
-        raise PermissionDenied
+        raise PermissionDenied("You do not have the required permissions.")
 
 
-class StaffAndSuperUserPermissions(UserPassesTestMixin):
-
-    def test_func(self):
-        return self.request.user.is_staff or self.request.user.is_superuser
-
-
-class SameUserPermissions(LoginRequiredMixin, UserPassesTestMixin):
+class SameUserPermissions(UserPassesTestMixin):
 
     def test_func(self):
-        if hasattr(self, 'get_object') and hasattr(self, 'user'):
-            obj = self.get_object()
-            return self.request.user.id == obj.user.pk
+        user = self.request.user
 
-        return self.request.user.id == int(self.kwargs['pk'])
-
-
-class SameUserAndStaffOrSuperUserPermissions(LoginRequiredMixin, UserPassesTestMixin):
-
-    def test_func(self):
-        if hasattr(self, 'get_object') and hasattr(self, 'user'):
+        if hasattr(self, 'get_object'):
             obj = self.get_object()
 
-            return (self.request.user.id == obj.user.pk
-                    or self.request.user.is_staff
-                    or self.request.user.is_superuser)
+            if  hasattr(obj, 'user'):
+                return not user.is_anonymous and user.id == obj.user.pk
 
-        return (self.request.user.id == int(self.kwargs['pk'])
-                or self.request.user.is_staff
-                or self.request.user.is_superuser)
+        return user.id == int(self.kwargs['pk'])
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You do not have permission to access this page.")
 
 
 class IsStaffOrSuperUser(BasePermission):
@@ -51,8 +38,6 @@ class IsStaffOrSuperUser(BasePermission):
 class IsSameUser(BasePermission):
 
     def has_permission(self, request, view):
-        if hasattr(self, 'get_object') and hasattr(self, 'user'):
-            obj = self.get_object()
-            return self.request.user.id == obj.user.pk
-
-        return self.request.user.id == int(self.kwargs['pk'])
+        user = request.user
+        obj = view.get_object()
+        return user.id == obj.user.pk

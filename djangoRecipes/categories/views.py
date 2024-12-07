@@ -1,16 +1,16 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
-from rest_framework.generics import UpdateAPIView, DestroyAPIView, get_object_or_404
+from rest_framework.generics import get_object_or_404, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from djangoRecipes.categories.forms import CategoryForm
 from djangoRecipes.categories.models import Category
 from djangoRecipes.categories.serializers import CategorySerializer
-from djangoRecipes.common.permissions import StaffAndSuperUserPermissions, IsStaffOrSuperUser, AnonymousUserPermissions
+from djangoRecipes.common.permissions import StaffAndSuperUserPermissions, IsStaffOrSuperUser
 from djangoRecipes.recipes.views import BaseRecipeDashboardView
 
 
-class AddCategoryView(AnonymousUserPermissions, StaffAndSuperUserPermissions, CreateView):
+class AddCategoryView(StaffAndSuperUserPermissions, CreateView):
     model = Category
     form_class = CategoryForm
     template_name = "categories/add-category-view.html"
@@ -41,7 +41,7 @@ class CategoryListView(ListView):
         return context
 
 
-class CategoryEditDeleteView(UpdateAPIView, DestroyAPIView):
+class CategoryEditDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated, IsStaffOrSuperUser]
 

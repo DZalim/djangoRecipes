@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 
-from djangoRecipes.common.permissions import SameUserPermissions, AnonymousUserPermissions
+from djangoRecipes.common.permissions import SameUserPermissions
 from djangoRecipes.photos.forms import AddRecipePhotoForm, AddUserPhotoForm
 from djangoRecipes.photos.models import RecipePhotos, UsersPhoto
 from djangoRecipes.recipes.models import Recipe
@@ -10,10 +11,14 @@ from djangoRecipes.recipes.models import Recipe
 UserModel = get_user_model()
 
 
-class AddRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, CreateView):
+class AddRecipePhotoView(SameUserPermissions, CreateView):
     model = RecipePhotos
     form_class = AddRecipePhotoForm
     template_name = "photos/add-photo-view.html"
+
+    def get_object(self, queryset=None):
+        recipe_id = self.kwargs["pk"]
+        return get_object_or_404(Recipe, pk=recipe_id)
 
     def form_valid(self, form):
         recipe_id = self.kwargs["pk"]
@@ -29,7 +34,7 @@ class AddRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, CreateVi
         return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class DeleteRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, DeleteView):
+class DeleteRecipePhotoView(SameUserPermissions, DeleteView):
     model = RecipePhotos
 
     def get_object(self, queryset=None):
@@ -39,10 +44,14 @@ class DeleteRecipePhotoView(AnonymousUserPermissions, SameUserPermissions, Delet
         return reverse_lazy('recipe-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class AddUserPhotoView(AnonymousUserPermissions, SameUserPermissions, CreateView):
+class AddUserPhotoView(SameUserPermissions, CreateView):
     model = UsersPhoto
     form_class = AddUserPhotoForm
     template_name = "photos/add-photo-view.html"
+
+    def get_object(self, queryset=None):
+        user_id = self.kwargs["pk"]
+        return get_object_or_404(UserModel, pk=user_id)
 
     def form_valid(self, form):
         user_id = self.kwargs["pk"]
@@ -58,7 +67,7 @@ class AddUserPhotoView(AnonymousUserPermissions, SameUserPermissions, CreateView
         return reverse_lazy('profile-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class ChangeUserPhotoView(AnonymousUserPermissions, SameUserPermissions,UpdateView):
+class ChangeUserPhotoView(SameUserPermissions, UpdateView):
     model = UsersPhoto
     form_class = AddUserPhotoForm
     template_name = "photos/change-photo-view.html"
@@ -75,7 +84,7 @@ class ChangeUserPhotoView(AnonymousUserPermissions, SameUserPermissions,UpdateVi
         return reverse_lazy('profile-details', kwargs={'pk': self.kwargs['pk']})
 
 
-class DeleteUserPhotoView(AnonymousUserPermissions, SameUserPermissions,DeleteView):
+class DeleteUserPhotoView(SameUserPermissions, DeleteView):
     model = UsersPhoto
 
     def get_object(self, queryset=None):

@@ -160,7 +160,6 @@
 ### Permissions
 Custom view permissions include:
   - **SameUserPermissions**: Actions restricted to object owners.
-  - **AnonymousUserPermissions**: Deny access to authenticated users. To raise an error Forbidden, not to redirect to the login page.
   - **StaffAndSuperUserPermissions**: Access for staff and superusers.
 
 ## Signals

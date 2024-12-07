@@ -16,5 +16,8 @@ def create_profile(sender, instance: UserModel, created, **kwargs):
 
 @receiver(pre_delete, sender=UserModel)
 def delete_user_profile_picture(sender, instance, **kwargs):
-    instance.profile_picture.delete_photo_from_cloudinary()
+    if hasattr(instance, 'profile_picture') and instance.profile_picture:
+        instance.profile_picture.delete()
+
+        instance.profile_picture.delete_photo_from_cloudinary()
 

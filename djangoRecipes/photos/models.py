@@ -49,7 +49,7 @@ class BasePhoto(TimeStampMixin):
 
 
 class UsersPhoto(BasePhoto):
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name="profile_picture")
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name="profile_picture", null=True, blank=True)
 
     class Meta:
         verbose_name = "User Photo"

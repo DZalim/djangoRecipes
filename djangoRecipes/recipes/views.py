@@ -7,15 +7,14 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
 from djangoRecipes.common.forms import CommentForm, SearchForm
-from djangoRecipes.common.permissions import StaffAndSuperUserPermissions, SameUserAndStaffOrSuperUserPermissions, \
-    SameUserPermissions, AnonymousUserPermissions
+from djangoRecipes.common.permissions import StaffAndSuperUserPermissions, SameUserPermissions
 from djangoRecipes.recipes.forms import CreateRecipeForm, EditRecipeForm
 from djangoRecipes.recipes.models import Recipe
 
 UserModel = get_user_model()
 
 
-class AddRecipeView(AnonymousUserPermissions, LoginRequiredMixin, CreateView):
+class AddRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = CreateRecipeForm
     template_name = "recipes/recipe-form-view.html"
@@ -92,10 +91,12 @@ class RecipeDetailsView(DetailView):
         recipe = get_object_or_404(Recipe, pk=self.kwargs["pk"])
         user = self.request.user
 
+        if not recipe.is_approved:
 
-        if ((not user.is_authenticated
-             or (user.pk != recipe.user.pk and (not user.is_staff or not user.is_superuser)))):
-            if not recipe.is_approved:
+            if not user.is_authenticated:
+                raise Http404
+
+            if user.pk != recipe.user.pk and not (user.is_staff or user.is_superuser):
                 raise Http404
 
         return recipe
@@ -113,7 +114,7 @@ class RecipeDetailsView(DetailView):
         return context
 
 
-class EditRecipeView(AnonymousUserPermissions, SameUserPermissions, UpdateView):
+class EditRecipeView(SameUserPermissions, UpdateView):
     model = Recipe
     form_class = EditRecipeForm
     template_name = "recipes/recipe-form-view.html"
@@ -122,7 +123,7 @@ class EditRecipeView(AnonymousUserPermissions, SameUserPermissions, UpdateView):
         return reverse_lazy('own-recipes', kwargs={'pk': self.request.user.pk})
 
 
-class DeleteRecipeView(AnonymousUserPermissions, SameUserPermissions, DeleteView):
+class DeleteRecipeView(SameUserPermissions, DeleteView):
     model = Recipe
 
     def get_success_url(self):
@@ -150,7 +151,7 @@ class OwnRecipesView(BaseRecipeDashboardView):
         return context
 
 
-class FavoriteRecipesView(AnonymousUserPermissions, SameUserAndStaffOrSuperUserPermissions, BaseRecipeDashboardView):
+class FavoriteRecipesView(SameUserPermissions, BaseRecipeDashboardView):
 
     def get_queryset(self):
         user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
@@ -165,7 +166,7 @@ class FavoriteRecipesView(AnonymousUserPermissions, SameUserAndStaffOrSuperUserP
         return context
 
 
-class CommentedRecipesView(AnonymousUserPermissions, SameUserAndStaffOrSuperUserPermissions, BaseRecipeDashboardView):
+class CommentedRecipesView(SameUserPermissions, BaseRecipeDashboardView):
 
     def get_queryset(self):
         user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
