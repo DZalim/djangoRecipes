@@ -1,0 +1,106 @@
+.logo {
+    margin-top: 3.9rem;
+    width: 10rem;
+    border-radius: 50%;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #009AE5;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px 0 rgb(0, 154, 229, 0.5);
+}
+
+div.nav-1,div.nav-2,div.nav-3 {
+    flex: 1 1 33%;
+    display: flex;
+    align-items: center;
+}
+
+div.nav-1 {
+    justify-content: flex-start;
+}
+
+div.nav-2 {
+    justify-content: center;
+}
+
+div.nav-3 {
+    justify-content: flex-end;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+ul.menu {
+    font-weight: 300;
+    font-style: normal;
+    list-style: none;
+    background-color: #009AE5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: 10px;
+}
+
+ul.menu a.menu-link {
+    color: #FFF;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 8px;
+    position: relative;
+}
+
+ul.menu a.menu-link:hover, ul.menu a.menu-link:focus, ul.menu a.menu-link.active {
+    background-color: rgba(45, 59, 67, 0.74);
+    outline: 0;
+}
+
+ul.menu a.menu-link:hover span, ul.menu a.menu-link:focus span, ul.menu a.menu-link.active span {
+    transform: scale(1);
+    opacity: 1;
+}
+
+ul.menu a.menu-link i {
+    font-size: 2.375rem;
+}
+
+
+ul.menu a.menu-link span {
+    position: absolute;
+    background-color: rgba(45, 59, 67, 0.74);
+    font-family: "Roboto", sans-serif;
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    top: calc(100% + 1.5rem);
+    transform-origin: center left;
+    transform: scale(0);
+    opacity: 0;
+    transition: 0.15s ease;
+}
+
+ul.menu a.menu-link span:before {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    background-color: rgba(45, 59, 67, 0.74);
+    left: 50%;
+    top: 0;
+    transform: translatey(-50%) rotate(45deg);
+    border-radius: 3px;
+}

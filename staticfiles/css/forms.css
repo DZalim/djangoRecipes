@@ -1,0 +1,168 @@
+.recipe-form-box, .form-box {
+    margin-top: 50px;
+}
+
+.form-box, .recipe-form-box {
+    display: block;
+    background-color: #fff;
+    border: 1px solid #009AE5;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px rgba(0, 154, 229, 0.1);
+}
+
+.form-box {
+    width: 350px;
+}
+
+.change-photo-box a, #photo_url-clear_id, .change-photo-box label:first-child{
+    display: none;
+}
+
+.form-box input,
+.recipe-form-box input,
+.form-box textarea,
+.recipe-form-box textarea,
+.form-box select,
+.recipe-form-box select {
+    width: 100%;
+    margin-top: 7px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #009AE5;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-box input::placeholder,
+.recipe-form-box input::placeholder,
+.form-box textarea::placeholder,
+.recipe-form-box textarea::placeholder {
+    color: #666;
+    font-style: normal;
+}
+
+.form-box input:focus,
+.recipe-form-box input:focus,
+.form-box textarea:focus,
+.recipe-form-box textarea:focus,
+.form-box select:focus,
+.recipe-form-box select:focus {
+    border-color: #009AE5;
+    outline: none;
+}
+
+.form-box input[type="radio"],
+.recipe-form-box input[type="radio"],
+.form-box input[type="checkbox"],
+.recipe-form-box input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.form-box button,
+.recipe-form-box button {
+    background-color: #009AE5;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-box button:hover,
+.recipe-form-box button:hover {
+    background-color: #0077cc;
+}
+
+
+/*login*/
+.form-box h1 {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    color: #009AE5;
+}
+
+/*register*/
+.helptext {
+    display: none;
+}
+
+.login-register-div {
+    margin-top: 10px;
+    width: 350px;
+}
+
+/*Only recipe-box*/
+
+.recipe-form-box form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.form-column-left {
+    padding-right: 10px;
+}
+
+.form-column-right {
+    padding-left: 10px;
+    border-left: 1px solid #ddd;
+}
+
+.error-message, .error-list, .errorlist {
+    font-size: 12px;
+    color: red;
+    font-style: italic;
+    margin-top: 6px;
+
+}
+
+.error-list li::marker, .errorlist li::marker{
+    color: white;
+}
+
+.recipe-form-box button {
+    font-size: 18px;
+}
+
+
+/*For Login and Register*/
+
+.second-option {
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.second-option a {
+    color: #009AE5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.second-option a:hover {
+    text-decoration: underline;
+}
+
+input[readonly], input[disabled] {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    pointer-events: none;
+}

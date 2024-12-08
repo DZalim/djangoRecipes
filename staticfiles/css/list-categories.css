@@ -1,0 +1,130 @@
+.category-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    margin: 0 auto;
+    width: 70vw;
+}
+
+.category-box {
+    display: flex;
+    justify-content: space-between;
+    width: 50vw;
+    background-color: #fff;
+    border: 2px solid #009AE5;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    font-variant: all-petite-caps;
+    justify-content: space-around;
+    padding: 15px;
+    text-align: left;
+}
+
+.category-content h4 {
+    font-size: 1.5rem;
+    color: #009AE5;
+    margin-bottom: 10px;
+}
+
+.category-content a {
+    text-decoration: none;
+}
+
+.category-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+.category-actions .delete-category-btn, .edit-category-btn {
+    border: none;
+    background-color: #f9f9f9;
+}
+
+.category-actions button {
+    background-color: #009AE5;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.category-actions button:hover {
+    background-color: #0077cc;
+}
+
+.no-categories {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #555;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.no-categories span {
+    display: inline-block;
+    padding: 5px 15px;
+    background: linear-gradient(135deg, #007bbd, #009AE5);
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+}
+
+.no-categories span:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.no-categories span:nth-child(2) {
+    animation-delay: 0.3s;
+}
+.no-categories span:nth-child(3) {
+    animation-delay: 0.5s;
+}
+.no-categories span:nth-child(4) {
+    animation-delay: 0.7s;
+}
+
+.no-categories span:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #005fa3, #007bbd);
+}
+
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
