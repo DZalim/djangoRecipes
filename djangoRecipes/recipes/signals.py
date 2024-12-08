@@ -28,7 +28,7 @@ def send_approval_email(sender, instance, created, **kwargs):
                     f"Best Regards,\n"
                     f"Django Recipes\n",
             from_email=FROM_EMAIL,
-            recipient_list=[instance.email],  # user.email
+            recipient_list=[user.email],  # user.email
             fail_silently=False
         )
 
