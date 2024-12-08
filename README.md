@@ -1,6 +1,8 @@
 ﻿# djangoRecipes
 
+
 `djangoRecipes` is a recipe management platform built using Django. It provides functionality for managing user profiles, categories, and recipes. It combines Django Template Language, Django REST Framework, and JavaScript for a seamless user experience. The project includes both public and private sections with a robust permissions system.
+https://djangorecipes-cuhtc6erfnargja2.italynorth-01.azurewebsites.net/
 
 ## Table of Contents
 1.  [About](#about)
@@ -74,21 +76,28 @@
     pip install -r requirements.txt
     ```
 
-4. **Create a `.env` File**:
-    - In the project root, create a `.env` file with the following keys:
-      ```plaintext
-        DB_USER=postgres
-        DB_PASSWORD=YOUR_PASSWORD
-        DB_HOST=YOUR_HOST
-        DB_PORT=YOUR_PORT
-        DB_NAME=YOUR_DB_NAME
-        SECRET_KEY=YOUR_SECRET_KEY
-        CLOUD_NAME=YOUR_CLOUDINARY_CLOUD_NAME
-        API_KEY=YOUR_CLOUDINARY_API_KEY
-        API_SECRET=YOUR_CLOUDINARY_API_SECRET
-        DEBUG=YOUR_DEBUG
-        ALLOWED_HOSTS=YOUR_ALLOWED_HOSTS
-      ```
+   4. **Create a `.env` File**:
+       - In the project root, create a `.env` file with the following keys:
+         ```plaintext
+           DB_USER=postgres
+           DB_PASSWORD=YOUR_PASSWORD
+           DB_HOST=YOUR_HOST
+           DB_PORT=YOUR_PORT
+           DB_NAME=YOUR_DB_NAME
+           SECRET_KEY=YOUR_SECRET_KEY
+           CLOUD_NAME=YOUR_CLOUDINARY_CLOUD_NAME
+           API_KEY=YOUR_CLOUDINARY_API_KEY
+           API_SECRET=YOUR_CLOUDINARY_API_SECRET
+           DEBUG=YOUR_DEBUG
+           ALLOWED_HOSTS=YOUR_ALLOWED_HOSTS
+           MAILJET_API_KEY=YOUR_MAILJET_API_KEY
+           MAILJET_SECRET_KEY=YOUR_MAILJET_API_KEY
+           EMAIL_HOST=MAILJET_EMAIL_HOST
+           EMAIL_PORT=MAILJET_EMAIL_PORT
+           EMAIL_USE_TLS=True
+           FROM_EMAIL=YOUR_SENDER_EMAIL
+           CSRF_TRUSTED_ORIGINS=https://djangorecipes-cuhtc6erfnargja2.italynorth-01.azurewebsites.net
+         ```
 
 5. **Configure Cloudinary**:
    - Register at [Cloudinary](https://cloudinary.com) to get API credentials.
