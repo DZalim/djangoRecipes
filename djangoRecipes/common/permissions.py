@@ -20,8 +20,11 @@ class SameUserPermissions(UserPassesTestMixin):
         if hasattr(self, 'get_object'):
             obj = self.get_object()
 
-            if  hasattr(obj, 'user'):
+            if hasattr(obj, 'user'):
                 return not user.is_anonymous and user.id == obj.user.pk
+
+            if hasattr(obj, 'recipe'):
+                return not user.is_anonymous and user.id == obj.recipe.user.pk
 
         return user.id == int(self.kwargs['pk'])
 

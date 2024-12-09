@@ -1,7 +1,7 @@
 <div class="recipe-form-div">
     <div class="recipe-form-box">
         
-        <form action="" method="post">
+        <form action="{% url "add-recipe" %}" method="post">
             
             {% csrf_token %}
         
