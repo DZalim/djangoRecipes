@@ -18,6 +18,11 @@ class Category(TimeStampMixin):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="categories")
 
     class Meta:
+        indexes = [
+            models.Index(fields=['category_name']),
+        ]
+        ordering = ['category_name']
+
         verbose_name_plural = "Categories"
 
     def __str__(self):

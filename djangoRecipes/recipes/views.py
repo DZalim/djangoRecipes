@@ -28,6 +28,12 @@ class AddRecipeView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('add-recipe')
+        context['is_edit'] = False
+        return context
+
     def get_success_url(self):
         return reverse_lazy('own-recipes', kwargs={'pk': self.request.user.pk})
 
@@ -104,7 +110,12 @@ class RecipeDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["ingredients"] = context["recipe"].ingredients.split(";")
+        context["ingredients"] = [
+            ingredient.strip()
+            for ingredient in context["recipe"].ingredients.split(";")
+            if ingredient.strip()
+        ]
+
         context["comment_form"] = CommentForm()
 
         user = self.request.user
@@ -118,6 +129,12 @@ class EditRecipeView(SameUserPermissions, UpdateView):
     model = Recipe
     form_class = EditRecipeForm
     template_name = "recipes/recipe-form-view.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action_url'] = reverse_lazy('edit-recipe', kwargs={'pk': self.object.pk})
+        context['is_edit'] = True
+        return context
 
     def get_success_url(self):
         return reverse_lazy('own-recipes', kwargs={'pk': self.request.user.pk})

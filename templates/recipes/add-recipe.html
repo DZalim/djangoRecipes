@@ -1,7 +1,11 @@
 <div class="recipe-form-div">
     <div class="recipe-form-box">
         
-        <form action="{% url "add-recipe" %}" method="post">
+        {% if action_url %}
+            <form action="{{ action_url }}" method="post">
+        {% else %}
+            <form action="{% url 'add-recipe' %}" method="post">
+        {% endif %}
             
             {% csrf_token %}
         
@@ -39,7 +43,11 @@
                 {% endfor %}
             </div>
             
-            <button type="submit">Create</button>
+            {% if is_edit %}
+                <button type="submit">Update</button>
+            {% else %}
+                <button type="submit">Create</button>
+            {% endif %}
         </form>
         
     </div>
